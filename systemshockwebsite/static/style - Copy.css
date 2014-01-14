@@ -1,0 +1,598 @@
+body
+{
+    color: #666666;
+    line-height:20px;
+    font-family: "DroidSansRegular", "Arial", sans-serif;
+    font-size: 16px;
+}
+
+/* header */
+
+#logo
+{
+    float:left;
+}
+
+#logo a
+{
+    outline: none;
+}
+
+/* main page elements */
+
+#content div.section
+{
+    float:left;
+    padding-top:20px;
+    margin-bottom:20px;
+}
+
+div.region-sidebar-second
+{
+    padding-top:20px;
+}
+
+#sub_footer
+{
+    border-top:solid 1px #797979;
+    font-size:11px;
+    margin-top:30px;
+    padding-top:30px;
+    padding-bottom:20px;
+    font-family: DroidSansRegular, Arial, sans-serif;
+}
+
+#sub_footer a
+{
+    text-decoration:none;
+    color:#39c;
+}
+
+/* right sidebar */
+
+div.region-sidebar-second img#sidebar-header
+{
+    width:280px;
+    float:left;
+}
+div.region-sidebar-second div.rightsidebar
+{
+    width:258px;
+    border:solid 1px #ccc;
+    color:#ababa4;
+    font-size:14px;
+    float:left;
+    padding:10px;
+}
+
+div.region-sidebar-second div#crslink
+{
+    width:258px;
+    border-bottom:solid 1px #ccc;
+    border-left:solid 1px #ccc;
+    border-right:solid 1px #ccc;
+    float:left;
+    padding:0 10px 0 10px;
+}
+
+div.region-sidebar-second div#crslink a
+{
+    color:#666;
+    font-size:11px;
+    text-decoration:none;
+}
+
+div.region-sidebar-second div#crslink a:hover
+{
+    color:black;
+}
+
+/*side bar apps */
+div.region-sidebar-second div.rightsidebar div.app
+{
+    margin-bottom: 20px;
+    float:left;
+}
+
+div.region-sidebar-second div.rightsidebar div.app a
+{
+    color:#666;
+}
+
+/* links in right sidebar */
+div.region-sidebar-second div.rightsidebar div.app ul
+{
+    list-style: square;
+}
+
+div.region-sidebar-second div.rightsidebar div.app ul li a
+{
+
+    text-decoration: none;
+}
+
+div.region-sidebar-second div.rightsidebar div.app ul li a:hover
+{
+    color:black;
+}
+
+/* resources list */
+div.region-sidebar-second div.rightsidebar div.app div.resourceslist
+{
+    font-size:12px;
+    line-height: 12px;
+    color:#666;
+}
+
+div.region-sidebar-second div.rightsidebar div.app div.resourceslist a
+{
+    text-decoration: none;
+}
+
+div.region-sidebar-second div.rightsidebar div.app div.resourceslist a:hover
+{
+    color:black;
+}
+
+/* Google news feed */
+div#feed
+{
+    float:left;
+    width:280px;
+    margin-left:-10px;
+    overflow:hidden;
+}
+
+div#feed a,div#feed span#up,div#feed span#down
+{
+    color:#666!important;
+}
+
+div.gns-root,div.gns-ads
+{
+    width:279px!important;
+
+}
+div.gns-basecanvas
+{
+    width:276px!important;
+
+}
+
+div.gns-result
+{
+    width:265px!important;
+}
+
+div.gns-query-title
+{
+    font-size: 15px;
+    font-weight:normal;
+    width:268px!important;
+    color: #a71930;
+}
+
+/* end of Google news feed */
+
+/* home page upper grid */
+
+div.gridlist.homepage
+{
+    margin-top:20px;
+}
+
+div.gridlist.homepage div.container
+{
+
+}
+
+div.gridlist.homepage div.container ul
+{
+    list-style-type:none;
+    list-style-position:outside;
+    list-style-image:none;
+    margin:0;
+    padding:0;
+}
+
+div.gridlist.homepage li.cell
+{
+    width:300px;
+    margin-top:0px;
+    margin-right:20px;
+    margin-bottom:30px;
+    float:left;
+    overflow:hidden;
+    height:250px;
+}
+
+div.gridlist.homepage li.cell div
+{
+    float:left;
+}
+
+div.gridlist.homepage li.cell div span.name
+{
+    color:#39c;
+    text-decoration: none;
+    display:inline-block;
+    line-height:23px;
+    font-size:20px;
+}
+
+div.gridlist.homepage li.cell div span.displayidentifier
+{
+    color:#39c;
+    text-decoration: none;
+    margin-right:0.5em;
+    display:inline-block;
+}
+
+div.gridlist.homepage li.cell img
+{
+    margin-top:10px;
+}
+
+div.gridlist.homepage li.cell div span.subtitle
+{
+    text-decoration: none;
+    line-height:14px;
+    font-size:12px;
+    font-family:Arial,sans-serif;
+    color:#666666;
+    display:inline-block;
+    margin-top:10px;
+}
+
+/* end of taxonomy grid */
+
+
+
+
+/* taxonomy grid */
+
+div.gridlist.taxonomy
+{
+    margin-top:20px;
+}
+
+div.gridlist.taxonomy div.container
+{
+
+}
+
+div.gridlist.taxonomy div.container ul
+{
+    list-style-type:none;
+    list-style-position:outside;
+    list-style-image:none;
+    margin:0;
+    padding:0;
+}
+
+div.gridlist.taxonomy li.cell
+{
+    width:210px;
+    margin-top:0px;
+    margin-right:20px;
+    margin-bottom:30px;
+    float:left;
+    overflow:hidden;
+    height:300px;
+}
+
+div.gridlist.taxonomy li.cell div
+{
+    float:left;
+}
+
+div.gridlist.taxonomy li.cell div span.name
+{
+   color:#39c;
+   text-decoration: none;
+    display:inline-block;
+}
+
+div.gridlist.taxonomy li.cell div span.displayidentifier
+{
+    color:#39c;
+    text-decoration: none;
+    margin-right:0.4em;
+    display:inline-block;
+}
+
+div.gridlist.taxonomy li.cell img
+{
+    margin-top:10px;
+}
+
+div.gridlist.taxonomy li.cell div span.subtitle
+{
+    text-decoration: none;
+    line-height:14px;
+    font-size:12px;
+    font-family:Arial,sans-serif;
+    color:#666666;
+    display:inline-block;
+    margin-top:10px;
+}
+
+/* end of taxonomy grid */
+
+
+/*  page forms generally */
+div.formview
+{
+
+}
+
+div.formview div.field img
+{
+    float:left;
+    margin-right:18px;
+    margin-bottom:20px;
+    border:solid 1px #999;
+}
+
+div.formview div.field span.displayidentifier
+{
+    float:left;
+    margin-right:0.5em;
+    margin-bottom:0px;
+}
+
+div.formview div.field span.subtitle
+{
+
+}
+
+div.formview div.field span.introtext,div.formview div.field span.maintext
+{
+    clear:both;
+    display:block;
+    font-size: 14px;
+    width:600px; /* for readability */
+}
+
+div.formview div.field span.introtext a,div.formview div.field span.maintext a
+{
+    color:#666;
+}
+
+
+
+/* end of forms generally */
+
+
+/* threatclass page - table of threat types */
+div.threattypetableborder
+{
+    margin-top:10px;
+    border:solid 3px #ccc;
+    float:left;
+    width:640px;
+    font-size: 12px;
+}
+
+div.threattypetableborder a
+{
+    color:#666;
+}
+
+div.threattypetableborder a:hover
+{
+    color:black;
+}
+
+div.threattypetableborder div.tableheading
+{
+    float:left;
+    background-color: #eee;
+}
+
+div.threattypetableborder div.tableheading div.classheader
+{
+    float:left;
+    width:270px;
+    margin-left:10px;
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+div.threattypetableborder div.tableheading div.descriptionheader
+{
+    float:right;
+    width:349px;
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-left:10px;
+    border-left:solid 1px #ccc;
+}
+
+div.gridlist.threatengine-threatclass
+{
+
+}
+
+div.gridlist.threatengine-threatclass div.container
+{
+
+}
+
+div.gridlist.threatengine-threatclass div.container ul
+{
+    list-style-type:none;
+    list-style-position:outside;
+    list-style-image:none;
+    margin:0;
+    padding:0;
+}
+
+div.gridlist.threatengine-threatclass div.container ul li
+{
+    border-top: solid 1px #ccc;
+    clear:both;
+}
+
+div.gridlist.threatengine-threatclass li.cell img
+{
+    margin:3px 10px 3px 3px;
+    float:left;
+    border:solid 1px #999;
+}
+
+div.gridlist.threatengine-threatclass li.cell div.field span.name
+{
+    float:left;
+    font-weight:bold;
+    padding-top:10px;
+    height:70px;
+    width:160px;
+}
+
+div.gridlist.threatengine-threatclass li.cell div.field span.displayidentifier
+{
+    float:left;
+    margin-right:0.5em;
+    padding-top:10px;
+    height:70px;
+}
+
+div.gridlist.threatengine-threatclass li.cell div.field span.subtitle
+{
+    float:right;
+    width:339px;
+    padding-top:10px;
+    padding-right:10px;
+    padding-left:10px;
+    border-left:solid 1px #ccc;
+    height:70px;
+}
+
+/* end of threatclass page */
+
+/* threattype page */
+div.formview.threatengine-threattype div.field span.introtext,div.formview.threatengine-threattype div.field span.maintext
+{
+    display:block;
+    margin-left:100px;
+    font-size:14px;
+    width:530px;
+}
+
+div.formview.threatengine-threattype div.field span.threatclassid
+{
+    font-size:12px;
+    text-transform:uppercase;
+}
+
+div.formview.threatengine-threattype div.field span.threatclassid a
+{
+    color:#666;
+    text-decoration:none;
+}
+
+div.formview.threatengine-threattype div.field span.threatclassid a:hover
+{
+    color:black;
+
+}
+/* menu */
+.jqueryslidemenu {
+    font-family: 'DroidSansRegular', Arial, sans-serif;
+    background: transparent;
+    /*width: 100%;*/
+}
+.jqueryslidemenu ul {
+    margin: 8px 0 0 0;  /* adjust menu relative to logo */
+    padding: 0;
+    list-style-type: none;
+    z-index:9999999;
+    float:right;
+}
+/*Top level list items*/
+.jqueryslidemenu ul li {
+    position: relative;
+    display: inline;
+    float: left;
+    margin-top:0 !important;
+}
+/*Top level menu link items style*/
+.jqueryslidemenu ul li a {
+    display: block;
+    background: transparent; /*background of tabs (default state)*/
+    padding: 10px 7px;
+    text-decoration: none;
+    text-transform:uppercase;
+}
+* html .jqueryslidemenu ul li a { /*IE6 hack to get sub menu links to behave correctly*/
+    display: inline-block;
+}
+.jqueryslidemenu ul li a:link, .jqueryslidemenu ul li a:visited {
+    color: #666;
+}
+.jqueryslidemenu ul li a:hover {
+    background: transparent; /*tab link background during hover state*/
+    color: #000;
+}
+.jqueryslidemenu ul li ul li:hover {
+    background:#f5f5f5;
+}
+/*1st sub level menu*/
+.jqueryslidemenu ul li ul {
+    position: absolute;
+    left: 0;
+    display: block;
+    visibility: hidden;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+    -ms-box-shadow:0px 0px 2px rgba(0, 0, 0, 0.2);
+    -o-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+}
+/*Sub level menu list items (undo style from Top level List Items)*/
+.jqueryslidemenu ul li ul li {
+    display: list-item;
+    float: none;
+    font-size:11px;
+}
+/*All subsequent sub menu levels vertical offset after 1st level sub menu */
+.jqueryslidemenu ul li ul li ul {
+    top: 0;
+}
+/* Sub level menu links style */
+.jqueryslidemenu ul li ul li a {
+    width: 120px; /*width of sub menus*/
+    padding: 5px 10px 5px 10px;
+    margin: 0;
+}
+.jqueryslidemenuz ul li ul li a:hover { /*sub menus hover style*/
+    background: #eff9ff;
+    color: black;
+}
+/* ######### CSS classes applied to down and right arrow images  ######### */
+
+.downarrowclass {
+    position: absolute;
+    top: 12px;
+    right: 7px;
+}
+.rightarrowclass {
+    position: absolute;
+    top: 6px;
+    right: 5px;
+}
+
+#nav ul li #active {
+    font-weight: normal;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #a71930;
+}
+
+#nav ul li a {
+    font-size: 11px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* end of menu */

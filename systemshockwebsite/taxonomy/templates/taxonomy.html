@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load generictablerenderer %}
+
+{% block content %}
+    <style>
+        /* taxonomy page has a single wide content columns and no right sidebar */
+        .sidebar-second #content,.lt-ie9 .sidebar-second #content
+        {
+            float: left;
+            width: 960px;
+            margin-left: 0;
+            margin-right: 0;
+        }
+
+        .sidebar-second .region-sidebar-second
+        {
+            display:none;
+        }
+    </style>
+
+
+    {% if form.errors %}
+        <div>Error in form</div>
+    {%  endif %}
+
+    {%  if editmode %}
+        <form method="post" class="pageedit">{% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Save" class="gobutton"/>
+        </form>
+    {%  endif %}
+
+    {% if not form.errors and not editmode%}
+    <h1 class="upper">{{ page_title }}</h1>
+    <h3>{{ page_subtitle }}</h3>
+    {% formview field_structure=tablesetup1 %}
+    {% endif %}
+
+    {% gridlist field_structure=tablesetupgrid %}
+
+{% endblock content %}
+
+
+{% block rightcolumn %}
+
+{% endblock rightcolumn %}
+

@@ -1,0 +1,36 @@
+<parameters name="test1">
+    <simulator>
+        <parameter name="assetSalesFactor" value="1.0" /> <!-- fudge factor applied when selling assets -->
+        <parameter name="logLevel" value="info" />
+        <parameter name="graphFile" value="test1.gexf" />
+        <parameter name="randomSeed" value="123443" />
+        <!-- can specify defaults for any economy parameters (and hence for any bank parameters) -->
+        <parameter name="targetCashProportion" value="0.0" />
+        <parameter name="loanSize" value="10" />
+        <parameter name="loanSD" value="2" />
+
+    </simulator>
+    <economy name="Economy1">
+        <parameter name="fireSaleFactor" value="0.0"  /> <!-- factor applied when selling investments -->
+        <parameter name="investmentCount" value="10"  /> <!-- number of investments to create -->
+        <!-- default bank parameters -->
+        <parameter name="externalAssetRatio" value="30"  />
+        <parameter name="financialLiabilityRatio" value="0.5"  />
+        <parameter name="cashRatio" value="0.08"  />
+    </economy>
+    <bank name="Bank1" economy="Economy1">
+
+    </bank>
+    <bank name="Bank2" economy="Economy1">
+
+    </bank>
+    <bank name="Bank3" economy="Economy1">
+
+    </bank>
+    <bank name="Bank4" economy="Economy1">
+
+    </bank>
+    <bank name="Bank5" economy="Economy1">
+
+    </bank>
+</parameters>

@@ -1,0 +1,35 @@
+# This is an auto-generated Django model module.
+# You'll have to do the following manually to clean this up:
+#     * Rearrange models' order
+#     * Make sure each model has one field with primary_key=True
+# Feel free to rename the models, but don't rename db_table values or field names.
+#
+# Also note: You'll have to insert the output of 'django-admin.py sqlcustom [appname]'
+# into your database.
+
+from django.db import models
+
+class Laptopnode(models.Model):
+    id = models.IntegerField(primary_key=True)
+    location = models.CharField(max_length=255, blank=True)
+    country = models.CharField(max_length=255, blank=True)
+    place = models.CharField(max_length=255, blank=True)
+    organisation = models.CharField(max_length=255, blank=True)
+    type = models.CharField(max_length=10, blank=True)
+    activity = models.CharField(max_length=255, blank=True)
+    url = models.CharField(max_length=255, blank=True)
+    the_geom = models.TextField(blank=True) # This field type is a guess.
+    class Meta:
+        db_table = u'laptopnode'
+
+class Laptopedge(models.Model):
+    id = models.IntegerField(primary_key=True)
+    startnode = models.IntegerField(null=True, blank=True)
+    endnode = models.IntegerField(null=True, blank=True)
+    notes = models.CharField(max_length=255, blank=True)
+    startlocation = models.CharField(max_length=255, blank=True)
+    endlocation = models.CharField(max_length=255, blank=True)
+    the_geom = models.TextField(blank=True) # This field type is a guess.
+    class Meta:
+        db_table = u'laptopedge'
+

@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% load generictablerenderer %}
+
+{% block content %}
+
+    {% if form.errors %}
+        <div>Error in form</div>
+    {%  endif %}
+
+    {%  if editmode %}
+        <form method="post" class="pageedit">{% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Save" class="gobutton"/>
+        </form>
+    {%  endif %}
+
+    {% if not form.errors and not editmode%}
+
+    <h1 class="upper">{{ page_title }}</h1>
+    <h3>{{ page_subtitle }}</h3>
+
+    {% formview field_structure=tablesetup1 %}
+
+    {% endif %}
+
+    <!-- gridlist tag start -->
+    <div class="gridlist homepage" >
+    <div class="container"><ul>
+
+
+    <li class="cell"><a href="/taxonomy">
+
+        <div class="field">
+            <span class="fieldvalue varchar name">Threat Observatory</span>
+        </div>
+        <div class="field">
+            <img width="300" height="154" src="{{ STATIC_URL }}scenarios_icon.png"></img>
+        </div>
+        <div class="field">
+            <span class="fieldvalue varchar subtitle">A structured framework for monitoring socio-economic threats and generating scenarios</span>
+        </div>
+    </a></li>
+
+    <li class="cell"><a href="/networks">
+
+        <div class="field">
+            <span class="fieldvalue varchar name">Network Manager</span>
+        </div>
+        <div class="field">
+            <img width="300" height="154" src="{{ STATIC_URL }}networks_icon.png"></img>
+        </div>
+        <div class="field">
+            <span class="fieldvalue varchar subtitle">Global networks and systems at risk, resilient international supply chains</span>
+        </div>
+    </a></li>
+
+    <li class="cell"><a href="/analysis">
+
+        <div class="field">
+            <span class="fieldvalue varchar name">Analytics Workbench</span>
+        </div>
+        <div class="field">
+            <img width="300" height="154" src="{{ STATIC_URL }}analyticsworkbench.jpg"></img>
+        </div>
+        <div class="field">
+            <span class="fieldvalue varchar subtitle">Loss models, macro-economic models, market models</span>
+        </div>
+    </a></li>
+
+    <li class="cell"><a href="/policy">
+
+
+        <div class="field">
+            <span class="fieldvalue varchar name">Strategy Forum</span>
+        </div>
+        <div class="field">
+            <img width="300" height="154" src="{{ STATIC_URL }}policy_icon.png" class="taxonomy_grid image1"></img>
+        </div>
+        <div class="field">
+            <span class="fieldvalue varchar subtitle">Working papers, presentations and reference works on the management of risks in business systems and networks</span>
+        </div>
+    </a></li>
+</ul>
+</div>
+</div>
+{% endblock content %}
+
+
+{% block comments %}
+    {% comment  %}
+        There are no comments on the home page
+    {% endcomment %}
+{% endblock comments %}
+
+{% block appcontainer %}
+    {% if righttext == '' %}
+        {{ block.super }}
+    {% else %}
+        <div class="app">
+            {{ righttext|safe }}
+        </div>
+    {%  endif %}
+{% endblock appcontainer %}
+
+
+

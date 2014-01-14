@@ -1,0 +1,7 @@
+<bank identifier='1'>
+    <parameter type='changing' name='pBank' value='1.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='rhoBank' value='0.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='thetaBank' value='2.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='xiBank' value='1.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='gammaBank' value='0.0' validity='0-1000'></parameter>
+</bank>

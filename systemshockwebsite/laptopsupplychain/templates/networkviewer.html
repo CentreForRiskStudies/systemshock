@@ -1,0 +1,846 @@
+{% extends "base.html" %}
+
+{% block javascript1 %}
+
+    {% if browser != "MSIE" %}
+    <style>
+        /*method of passing double click and mouse moves through to the map under the network - but no support for this in IE*/
+        #graph
+        {
+            pointer-events:none;
+        }
+        .node
+        {
+            pointer-events:auto;
+        }
+    </style>
+    {% endif %}
+
+    <link rel="stylesheet" href="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.css" />
+    <script src="http://cdn.leafletjs.com/leaflet-0.6.4/leaflet.js"></script>
+
+    <!--<script src="{{ STATIC_URL }}d3.v3.min.js"></script>--><!-- get D3 from a local source -->
+    <script src="http://d3js.org/d3.v3.min.js"></script>  <!-- get latest D3 from D3 -->
+    <script src="http://maps.google.com/maps/api/js?v=3.3&amp;sensor=false"></script>
+    <script src="http://openlayers.org/api/OpenLayers.js"></script>
+
+{% endblock javascript1 %}
+
+{% block content %}
+
+    <!--<input id="nodeId" />
+    <input id="footprint" type="button" value="put node in footprint" onclick="return footprint_onclick()"   title="Click here to put a node in footprint" /><br />-->
+
+    {% if pageclass == 'networkmanager' %}
+    <div class="mapbuttons">
+        <!--<input id="toggle" type="button" value="Switch views" onclick="return toggle()"   title="" />
+        <input id="hidefootprint" type="button" value="Footprint" onclick="return footprintvisibility()"   title="" />
+        <input id="footprint" type="button" value="Intensity" onclick="return graph.markForDeletion()"   title="" />
+
+        <input id="remove" type="button" value="Shock" onclick="return remove_onclick()"   title="" />-->
+
+        <!--<input id="hidemap" type="button" value="Hide map" onclick="return mapvisibility()"   title="" />
+        <input id="changeAPI" type="button" value="Change API" onclick="return changeAPI()"   title="" />-->
+
+        <input id="toggleTminus1" type="button" value="Distribution" onclick="return toggleTminus1vis()"   title="" />
+
+        Supplier Tier:
+        <input id="toggleT1" type="button" value="1" onclick="return toggleT1vis()"   title="" />
+        <input id="toggleT2" type="button" value="2" onclick="return toggleT2vis()"   title="" />
+        <input id="toggleT3" type="button" value="3" onclick="return toggleT3vis()"   title="" />
+
+
+        <div class="metrics">
+        {% if stage < 6 %}
+        d=<b>{{ diameter }}</b>
+        r=<b>{{ radius }}</b>
+        ccs=<b>{{ number_connected_components }}</b>
+        deg_lcc=<b>{{ number_of_nodes }}</b>
+        bcentralnode=<b>{{ betweenness_centrality }}</b>
+        trans=<b>{{ transitivity }}</b>
+        avgcluster=<b>{{ average_clustering }}</b>
+        {% else %}
+        ccs=<b>{{ number_connected_components_K }}</b>
+        deg_lcc=<b>{{ number_of_nodes_K }}</b>
+        bcentralnode=<b>{{ betweenness_centrality }}</b>
+        trans=<b>{{ transitivity_K }}</b>
+        avgcluster=<b>{{ average_clustering_K }}</b>
+        {% endif %}
+        </div>
+    </div>
+
+    {% endif %}
+
+    <div class="d3message">You are using Internet Explorer 8 or earlier - This page requires at least Internet Explorer 9 - or you can use Firefox, Chrome or Safari</div>
+
+    <div id="container" style="width:940px;height:600px;border:solid 1px #aaa;position:relative">
+        <div id="graph" style="width:0px;height:0px;position:absolute;top:0px;z-index:2;"></div>
+        <div id="map" style="width:940px;height:600px;position:absolute;top:0px;z-index:1;" >
+            <!--<img height="620px" width="820px" src="{{ STATIC_URL }}freeze_footprint.jpg"></img>-->
+        </div>
+        <div id="popup">
+            <!-- popup container -->
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var map, proj_geog, proj_merc, layer, select, hover, control;
+
+        var tickCount = 0;
+
+        var mapAPI = '{{ api }}';
+
+        var hazardWMSLayer;  // openlayers footprint layer
+        var footprint;  // leaflet footprint layer
+
+
+
+        function initOLmap(){
+            //OpenLayers.ProxyHost= "http://gemecd.org/cgi-bin/proxy.cgi?url=";
+
+            proj_geog = new OpenLayers.Projection("EPSG:4326");
+            proj_merc = new OpenLayers.Projection("EPSG:900913");
+
+            map = new OpenLayers.Map('map', {
+                controls: [
+                    new OpenLayers.Control.PanZoomBar(),
+                    new OpenLayers.Control.Navigation(),
+                    new OpenLayers.Control.LayerSwitcher()
+                ],
+                projection: proj_merc,
+                displayProjection: proj_geog,
+                units: "m"
+
+            });
+
+            var gphy = new OpenLayers.Layer.Google(
+                    "Google Physical",
+                    {
+                        type: google.maps.MapTypeId.TERRAIN,
+                        numZoomLevels: 20
+                    }
+            );
+
+            map.addLayers([gphy]);
+
+
+            hazardWMSLayer = new OpenLayers.Layer.WMS(
+                    "100 year freeze footprint",
+                    "http://systemshock.org.uk/geoserver/systemshock/wms",
+                    {
+                        layers: "systemshock:freeze_shape_file",
+                        format: 'image/png',
+                        transparent:true
+                    },
+                    {
+                        opacity:0.5,
+                        tiled:true
+                    }
+            );
+            //hazardWMSLayer.setVisibility(false);
+            map.addLayers([hazardWMSLayer]);
+
+
+            var centre = new OpenLayers.LonLat(10,10);
+            centre.transform(proj_geog, map.getProjectionObject());
+            map.setCenter(centre, 2);
+        }
+
+        function initLeafletmap()
+        {
+
+
+            var backgroundmap = new L.tileLayer('http://{s}.tile.cloudmade.com/4cc00f0c8a8e42f2a2693481a431870a/998/256/{z}/{x}/{y}.png', {
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://cloudmade.com">CloudMade</a>[…]',
+                maxZoom: 18
+            });
+
+            footprint = new L.TileLayer.WMS("http://systemshock.org.uk/geoserver/systemshock/wms", {
+                layers: 'systemshock:freeze_shape_file',
+                format: 'image/png',
+                transparent: true,
+                tiled: true,
+                opacity: 0.5
+            });
+
+            map = new L.Map('map', {
+                center: new L.LatLng(10, 10),
+                zoom: 2,
+                layers: [backgroundmap],
+                zoomControl: true
+            });
+
+            //var geojsonFeature = ;
+            //L.geoJson(geojsonFeature).addTo(map);
+
+        }
+
+        if (mapAPI == "OL") {initOLmap();}
+        if (mapAPI == "leaflet") {initLeafletmap();}
+
+    </script>
+
+    <script type="text/javascript">
+
+        var jsonGraph = {{ jsonGraph|safe }};
+        var mapOn = true;
+        var mapHidden = false;
+        var footprintHidden = true;
+        var static = true;
+
+        var t0Nvis = true;
+        var t1Nvis = true;
+        var t2Nvis = true;
+        var t3Nvis = true;
+        var tminus1Nvis = true;
+        var t0Evis = true;
+        var t1Evis = true;
+        var t2Evis = true;
+        var t3Evis = true;
+        var tminus1Evis = true;
+
+        //var bounds = [[-134,-44], [157,75]];  // left bottom right top
+
+
+        function remove_onclick()
+        {
+            //nodeId = document.getElementById("nodeId").value;
+
+            //if ( nodeId != "" )
+            //{
+            //	graph.removeNode(parseInt(nodeId));
+            //}
+
+            graph.applyFootprint();
+
+        }
+
+        function toggle()
+        {
+            mapOn = !mapOn;
+            graph.mapRefresh();
+            if (mapOn)
+            {
+                if ( !mapHidden )
+                {
+                    document.getElementById("map").style.display="block";
+                }
+            }
+            else
+            {
+                document.getElementById("map").style.display="none";
+            }
+        }
+
+        function toggleT1vis()
+        {
+            if ( t1Nvis )
+            {
+                d3.selectAll(".node.tier1")
+                    .attr("visibility", "hidden");
+                t1Nvis = false;
+                d3.selectAll(".link.tier1")
+                        .attr("visibility", "hidden");
+                t1Evis = false;
+                document.getElementById('toggleT1').style.background = '#999';
+            }
+            else
+            {
+                d3.selectAll(".node.tier1")
+                        .attr("visibility", "visible");
+                t1Nvis = true;
+                d3.selectAll(".link.tier1")
+                        .attr("visibility", "visible");
+                t1Evis = true;
+                document.getElementById('toggleT1').style.background = 'rgb(212,208,200)';
+            }
+        }
+
+        function toggleT2vis()
+        {
+            if ( t2Nvis )
+            {
+                d3.selectAll(".node.tier2")
+                        .attr("visibility", "hidden");
+                t2Nvis = false;
+                d3.selectAll(".link.tier2")
+                        .attr("visibility", "hidden");
+                t2Evis = false;
+                document.getElementById('toggleT2').style.background = '#999';
+            }
+            else
+            {
+                d3.selectAll(".node.tier2")
+                        .attr("visibility", "visible");
+                t2Nvis = true;
+                d3.selectAll(".link.tier2")
+                        .attr("visibility", "visible");
+                t2Evis = true;
+                document.getElementById('toggleT2').style.background = 'rgb(212,208,200)';
+            }
+        }
+
+        function toggleT3vis()
+        {
+            if ( t3Nvis )
+            {
+                d3.selectAll(".node.tier3")
+                        .attr("visibility", "hidden");
+                t3Nvis = false;
+                d3.selectAll(".link.tier3")
+                        .attr("visibility", "hidden");
+                t3Evis = false;
+                document.getElementById('toggleT3').style.background = '#999';
+            }
+            else
+            {
+                d3.selectAll(".node.tier3")
+                        .attr("visibility", "visible");
+                t3Nvis = true;
+                d3.selectAll(".link.tier3")
+                        .attr("visibility", "visible");
+                t3Evis = true;
+                document.getElementById('toggleT3').style.background = 'rgb(212,208,200)';
+            }
+        }
+
+        function toggleTminus1vis()
+        {
+            if ( tminus1Nvis )
+            {
+                d3.selectAll(".node.tier-1")
+                        .attr("visibility", "hidden");
+                tminus1Nvis = false;
+                d3.selectAll(".link.tier-1")
+                        .attr("visibility", "hidden");
+                tminus1Evis = false;
+                //d3.selectAll(".node.tier-1footprint")
+                //        .attr("visibility", "hidden");
+                document.getElementById('toggleTminus1').style.background = '#999';
+            }
+            else
+            {
+                d3.selectAll(".node.tier-1")
+                        .attr("visibility", "visible");
+                tminus1Nvis = true;
+                d3.selectAll(".link.tier-1")
+                        .attr("visibility", "visible");
+                tminus1Evis = true;
+                //d3.selectAll(".node.tier-1footprint")
+                //        .attr("visibility", "visible");
+                document.getElementById('toggleTminus1').style.background = 'rgb(212,208,200)';
+            }
+        }
+
+
+
+
+
+        function mapvisibility()
+        {
+            mapHidden = !mapHidden;
+            if (!mapHidden)
+            {
+                if ( mapOn )
+                {
+                    document.getElementById("map").style.display="block";
+                }
+            }
+            else
+            {
+                document.getElementById("map").style.display="none";
+            }
+        }
+
+        function footprintvisibility()
+        {
+            footprintHidden = !footprintHidden;
+            if (!footprintHidden)
+            {
+                if (mapAPI == "OL") {hazardWMSLayer.setVisibility(true);}
+                if (mapAPI == "leaflet") { map.addLayer(footprint)  }
+            }
+            else
+            {
+                if (mapAPI == "OL") {hazardWMSLayer.setVisibility(false);}
+                if (mapAPI == "leaflet") {map.removeLayer(footprint) ; }
+            }
+        }
+
+        function changeAPI()
+        {
+
+            if (mapAPI == "OL") {document.location = '{{ editlink }}?api=leaflet';}
+            if (mapAPI == "leaflet") {document.location = '{{ editlink }}?api=ol';  }
+        }
+
+        function footprint_onclick()
+        {
+            nodeId = document.getElementById("nodeId").value;
+
+            if ( nodeId != "" )
+            {
+                graph.footprintNode(parseInt(nodeId));
+            }
+
+        }
+
+        function myGraph(el) {
+
+            // Add and remove elements on the graph object
+            this.addNode = function (id) {
+                nodes.push({"id":id});
+                update();
+            }
+
+            this.removeNode = function (id) {
+                var i = 0;
+                var n = findNode(id);
+                while (i < links.length) {
+                    if ((links[i]['source'] == n)||(links[i]['target'] == n)) links.splice(i,1);
+                    else i++;
+                }
+                nodes.splice(findNodeIndex(id),1);
+                update();
+            }
+
+            this.addLink = function (source, target) {
+                links.push({"source":findNode(source),"target":findNode(target),"value":1});
+                update();
+            }
+
+            var findNode = function(id) {
+                for (var i in nodes) {if (nodes[i]["id"] === id) return nodes[i]};
+            }
+
+            var findNodeIndex = function(id) {
+                for (var i in nodes) {if (nodes[i]["id"] === id) return i};
+            }
+
+            //this.footprintNode = function (id) {
+            //    var i = 0;
+            //    var n = findNode(id);
+            //    n.intensity = 5;
+            //    d3.select("#node_" + id ).style("fill", function(d) { return color(d.intensity); })
+            //    update();
+            //}
+
+            this.markForDeletion = function()
+            {
+                var i = 0;
+                while (i < nodes.length)
+                {
+                    if (nodes[i]["intensity"] > 0 )  // intensity >0 means the node is inside the footprint; intensity 6 marks a node for deletion at next shock
+                    {
+                        nodes[i]["intensity"] = 6;
+
+                        d3.select("#cnode_" + nodes[i]["id"] ).style("visibility", function(d) { return 'hidden'; })
+                        d3.select("#rnode_" + nodes[i]["id"] ).style("visibility", function(d) { return 'visible'; })
+                    }
+                    i++;
+                }
+
+            }
+
+            this.applyFootprint = function () {
+                var i = 0;
+                while (i < nodes.length)
+                {
+                    if (nodes[i]["intensity"] == 6 )  // intensity >0 means the node is inside the footprint; intensity 6 marks a node for deletion at next shock
+                    {
+                        var j = 0;
+                        while (j < links.length) {
+                            if ((links[j]['source']['id'] == nodes[i]["id"])||(links[j]['target']['id'] == nodes[i]["id"])) links.splice(j,1);
+                            else j++;
+                        }
+                        nodes.splice(i,1);
+                    }
+                    else i++;
+                }
+                update();
+            }
+
+            // refresh the map, if necessary switch between map and topographic views
+            this.mapRefresh = function ()
+            {
+                static = false;
+                var i = 0;
+                while (i < nodes.length)
+                {
+                    if (mapOn)
+                    {
+                        // go to fixed mode
+                        nodes[i]["fixed"] = true;
+
+                        var the_geom = nodes[i]["geometry"];
+
+                        if ( the_geom != undefined )
+                        {
+                            if ( mapAPI == 'OL')
+                            {
+                                // OpenLayers projection
+                                var point = new OpenLayers.LonLat(the_geom['coordinates'][0], the_geom['coordinates'][1]);
+                                point.transform(proj_geog, map.getProjectionObject());
+                                pxel = map.getPixelFromLonLat( point );
+                            }
+
+                            if ( mapAPI == 'leaflet' )
+                            {
+                                // Leaflet projection
+                                pxel = map.latLngToContainerPoint(new L.LatLng(the_geom['coordinates'][1], the_geom['coordinates'][0]));
+                            }
+
+                            if (static)
+                            {
+                                nodes[i]["x"] = pxel.x ;
+                                nodes[i]["y"] = pxel.y ;
+                                nodes[i]["px"] = pxel.x ;
+                                nodes[i]["py"] = pxel.y ;
+                            }
+                            else
+                            {
+                                nodes[i]["geox"] = pxel.x ;
+                                nodes[i]["geoy"] = pxel.y ;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        nodes[i]["fixed"] = false;
+                    }
+                    i++;
+                }
+                update();
+            }
+
+            // set up the D3 visualisation in the specified element
+            var w = 940,
+                h = 600;
+
+            //var color = d3.scale.category20();
+
+            if ( mapAPI == 'OL')
+            {
+                var vis = this.vis = d3.select(el)
+                    .append("svg:svg")
+                    .attr("width", w)
+                    .attr("height", h);
+            }
+
+            if ( mapAPI == 'leaflet')
+            {
+                var vis = this.vis = d3.select(el)
+                        .append("svg:svg")
+                        .attr("width", w)
+                        .attr("height", h);
+
+
+            }
+
+            var force = d3.layout.force()
+                    .gravity(0.3)
+                    .linkDistance(10)
+                    .linkStrength(2)
+                    .charge(-390)
+                    .nodes(jsonGraph.nodes)
+                    .links(jsonGraph.links)
+                    .size([w, h]);
+
+
+            var nodes = force.nodes(),
+                links = force.links();
+
+            //.links(graph.links)
+
+            var update = function () {
+
+                var link = vis.selectAll("line.link")
+                        .data(links, function(d) {return links.indexOf(d);}); // only returning the index in the array works as a key function (this is the same as omitting the function altogther)
+
+                link.enter().append("line")   // changed from insert to append
+                        //.attr("class", "link")
+                        .attr("class", function(d)
+                        {
+                            c = "link";
+                            // set class by tier
+                            if (d.tier==-1) {c = "link tier-1"; }
+                            if (d.tier==0) {c = "link tier-1"; }
+                            if (d.tier==1) {c = "link tier1"; }
+                            if (d.tier==2) {c = "link tier2"; }
+                            if (d.tier==3) {c = "link tier3"; }
+                            if (d.tier==4) {c = "link tier4"; }
+
+                            return c;
+                        })
+                        .style("stroke-width", function(d) { return 1; })
+                        .attr("id", function(d) { return "edge_" + d.edgeid; })
+                        .attr("visibility", function(d)
+                        {
+                            v = "visible";
+
+                            // set visibility by tier
+                            //if ((d.tier==0) && (!t0Evis )) {v = "hidden"; }
+                            //if ((d.tier==1) && (!t1Evis )) {v = "hidden"; }
+                            //if ((d.tier==2) && (!t2Evis )) {v = "hidden"; }
+                            //if ((d.tier==3) && (!t3Evis )) {v = "hidden"; }
+
+                            return v;
+                        })
+                        .attr("stroke", function(d)  // stroke color
+                        {
+                            c = "#000000";
+
+                            // set colour by tier
+                            if (d.tier==-1)  {c = 'rgb(168,168,168)'; }
+                            if (d.tier==0)  {c = 'rgb(168,168,168)'; }
+                            if (d.tier==1)  {c = 'rgb(168,168,168)'; }
+                            if (d.tier==2)  {c = 'rgb(168,168,168)'; }
+                            if (d.tier==3)  {c = 'rgb(168,168,168)'; }
+                            if (d.tier==4)  {c = 'rgb(168,168,168)'; }
+
+                            return c;
+                        })
+
+                link.exit().remove();
+
+                var node = vis.selectAll("g.node")
+                        .data(nodes, function(d) { return d.id;});
+
+                var nodeEnter = node.enter().append("g")
+                        .attr("class", "node")
+                        .call(force.drag);
+
+                // circles for nodes outside footprint
+                nodeEnter.append("circle")
+                        //.attr("class", "node")
+                        .attr("class", function(d)
+                        {
+                            c = "node";
+                            // set class by tier
+                            if (d.tier==-1) {c = "node tier-1"; }
+                            if (d.tier==0) {c = "node tier0"; }
+                            if (d.tier==1) {c = "node tier1"; }
+                            if (d.tier==2) {c = "node tier2"; }
+                            if (d.tier==3) {c = "node tier3"; }
+                            if (d.tier==4) {c = "node tier4"; }
+
+                            return c;
+                        })
+                        .attr("r", 5)
+                        //.attr("cx", 100)
+                        //.attr("cy", 100)
+                        .attr("visibility", function(d)
+                            {
+                                v = "visible";
+
+                                // make the circle disappear so we can see the diamond; there must be a better way to do this (6 means in footprint and marked for deletion)
+                                if (d.intensity == 6 ) {v = "hidden";}
+
+                                // set visibility by tier
+                                //if ((d.tier==0) && (!t0Nvis )) {v = "hidden"; }
+                                //if ((d.tier==1) && (!t1Nvis )) {v = "hidden"; }
+                                //if ((d.tier==2) && (!t2Nvis )) {v = "hidden"; }
+                                //if ((d.tier==3) && (!t3Nvis )) {v = "hidden"; }
+
+                                return v;
+                            })
+                        .style("fill", function(d)
+                            {
+                                c = "#aaaaaa";
+
+                                // set color by tier
+                                if (d.tier==-1) {c = 'rgb(255,255,0)'; }
+                                if (d.tier==0) {c = 'rgb(255,0,0)'; }
+                                if (d.tier==1) {c = 'rgb(255,127,7)'; }
+                                if (d.tier==2) {c = 'rgb(185,197,35)'; }
+                                if (d.tier==3) {c = 'rgb(0,168,43)'; }
+                                if (d.tier==4) {c = 'rgb(0,80,0)'; }
+
+                                return c;
+                            })
+                        .attr("id", function(d) { return "cnode_" + d.id; })
+
+                // diamonds for nodes inside footprint
+                nodeEnter.append("rect")
+                        //.attr("class", "node")
+                        .attr("class", function(d)
+                        {
+                            c = "node";
+                            // set class by tier
+                            if (d.tier==-1) {c = "node tier-1footprint"; }
+                            if (d.tier==0) {c = "node tier0footprint"; }
+                            if (d.tier==1) {c = "node tier1footprint"; }
+                            if (d.tier==2) {c = "node tier2footprint"; }
+                            if (d.tier==3) {c = "node tier3footprint"; }
+                            if (d.tier==4) {c = "node tier4footprint"; }
+
+                            return c;
+                        })
+                        .attr("width", 10)
+                        .attr("height", 10)
+                        .attr("transform", "rotate(-45 -4 8)" )
+                        //.attr("x", 0) // because it is transformed
+                        //.attr("y", 300)
+                        .attr("visibility", function(d)
+                        {
+                            v = "hidden";
+
+                            // make the red diamond appear; there must be a better way to do this (6 means in footprint and marked for deletion)
+                            if (d.intensity == 6 )
+                            {
+                                v = "visible";
+
+                                // but if the tier is not visible we dont want to see it
+                                //if ((d.tier==0) && (!t0Nvis )) {v = "hidden"; }
+                                //if ((d.tier==1) && (!t1Nvis )) {v = "hidden"; }
+                                //if ((d.tier==2) && (!t2Nvis )) {v = "hidden"; }
+                                //if ((d.tier==3) && (!t3Nvis )) {v = "hidden"; }
+                            }
+                            return v;
+                        })
+                        .style("fill", function(d)
+                        {
+                            // in footprint color
+                            c = '#08E9EB';
+                            return c;
+                        })
+                        .attr("id", function(d) { return "rnode_" + d.id; })
+
+
+                // tooltip
+                //nodeEnter.append("title")
+                //        .text(function(d) { return d.name; });
+
+                nodeEnter.on("click", function(d) {
+                    //alert (d.name + ": Now in event footprint") ;
+                    d.intensity = 6;
+                    d3.select("#cnode_" + d.id ).style("visibility", function(d) { return 'hidden'; })
+                    d3.select("#rnode_" + d.id ).style("visibility", function(d) { return 'visible'; })
+
+                    //var popup = L.popup()
+                    //        .setLatLng([d.geometry['coordinates'][1],d.geometry['coordinates'][0]])
+                    //        .setContent("hello")
+                    //        .openOn(map)
+                });
+
+                nodeEnter.on("mouseover" , function(d) {
+                    d3.select("#cnode_" + d.id ).style("stroke-width", 5).style("stroke-opacity", 0.8);
+                    d3.select("#popup").style("display", "block");
+                    if (mapOn)
+                    {
+                        d3.select("#popup").style("left", (d.geox+12 ) + 'px');
+                        d3.select("#popup").style("top", (d.geoy-30) + 'px');
+                    }
+                    else
+                    {
+                        d3.select("#popup").style("left", '10px');
+                        d3.select("#popup").style("top", '10px');
+                    }
+                    d3.select("#popup").html(d.name)
+                })
+
+                nodeEnter.on("mouseout" , function(d) {
+                    d3.select("#cnode_" + d.id ).style("stroke-width", 1).style("stroke-opacity", 1)
+                    d3.select("#popup").style("display", "none");
+                })
+
+                node.exit().remove();
+
+                force.on("tick", function(e) {
+
+                    // deal with geographic positioning when the map is on
+                    if ( mapOn && !static)
+                    {
+                        tickCount++;
+
+                        var k = e.alpha;
+                        nodes.forEach(function(o, i) {
+
+                            if ( tickCount == 1)
+                            {
+                                o.startx = o.x;
+                                o.starty = o.y;
+                            }
+                            o.x = o.x + (( o.geox - o.startx) / 10 );
+                            o.y = o.y + (( o.geoy - o.starty) / 10 );
+                            o.px = o.x ;
+                            o.py = o.y ;
+                        });
+
+
+                        if ( tickCount == 10 )
+                        {
+                            force.stop();
+                            tickCount = 0;
+                            static = true; // now we have slid the nodes into geographic positions allow the nodes to be dragged
+                        }
+                    }
+
+                    link
+                            .attr("x1", function(d) { return d.source.x; })
+                            .attr("y1", function(d) { return d.source.y; })
+                            .attr("x2", function(d) { return d.target.x; })
+                            .attr("y2", function(d) { return d.target.y; });
+
+                    node
+                            .attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")";});
+
+                    }
+                );
+
+                // Restart the force layout.
+                force.start();
+            }
+
+            // Make it all go
+            //update();
+
+
+        }
+
+        var graph = new myGraph("#graph");
+
+        graph.mapRefresh();
+
+        if ( mapAPI == 'OL')
+        {
+            map.events.register ("movestart", map, function() { document.getElementById('graph').style.display='none';});
+            map.events.register ("moveend", map, function() { graph.mapRefresh();document.getElementById('graph').style.display='block';});
+        }
+
+        // Leaflet geographic projection.
+        function project(coords)
+        {
+            var point = map.latLngToLayerPoint(new L.LatLng(coords[1], coords[0]));
+            return [point.x, point.y];
+        }
+
+        function reset()
+        {
+            graph.mapRefresh();
+        }
+
+        if (mapAPI == 'leaflet')
+        {
+            map.on("viewreset", reset);
+            map.on('dragend', reset);
+        }
+        // You can do this from the console as much as you like...
+        //graph.addNode("Cause");
+        //graph.addNode("Effect");
+        //graph.addLink("Cause", "Effect");
+        //graph.addNode("A");
+        //graph.addNode("B");
+        //graph.addLink("A", "B");
+
+        // to remove a supply chain node from the console
+        //graph.removeNode(106)
+
+        {% comment %} Can call javascript functions here to set the mode of the page {% endcomment %}
+        {{ init_code|safe }}
+
+    </script>
+
+
+
+{% endblock content %}

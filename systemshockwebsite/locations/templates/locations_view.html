@@ -1,0 +1,23 @@
+
+{% load generictablerenderer %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>View of location {{ ix }} {{ location_name }}</title>
+</head>
+<body>
+    <form method="post">{% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Submit" />
+    </form>
+
+
+    <h1>Location {{ ix }} {{ location_name }}</h1>
+
+    {% simpleview setup=tablesetup1 %}
+
+    <h2>A List</h2>
+    {% simpletable setup=tablesetup2 %}
+</body>
+</html>

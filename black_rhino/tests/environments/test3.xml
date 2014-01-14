@@ -1,0 +1,24 @@
+<environment title='test3'>
+    <parameter type='numSweeps' value='2'></parameter>
+    <parameter type='numSimulations' value='2'></parameter>
+    <parameter type='numBanks' value='3'></parameter>
+    <parameter type='bankDirectory' value='test_banks/3/'></parameter>
+    <parameter type='graphType' value='gexf'></parameter>
+    <parameter type='contractsNetworkFile' value='test_networks/full-3_banks'></parameter>
+    <parameter type='changing' name='rb' value='0.01' validity='0-1000'></parameter>
+    <parameter type='changing' name='rd' value='0.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='r' value='0.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='collateralQuality' value='0.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='successProbabilityFirms' value='1.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='positiveReturnFirms' value='0.0' validity='0-1000'></parameter>"
+    <parameter type='changing' name='scaleFactorHouseholds' value='0.5' validity='0-1000'></parameter>
+    <parameter type='changing' name='dividendLevel' value='1.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='pBank' value='1.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='xiBank' value='1.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='thetaBank' value='1.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='shockType' value='0.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='rhoBank' value='0.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='assetNumber' value='12.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='liquidationDiscountFactor' value='0.0' validity='0-1000'></parameter>
+    <parameter type='changing' name='interbankLoanMaturity' value='1.0' validity='0-1000'></parameter>
+</environment>

@@ -1,0 +1,15 @@
+<!-- documentlist tag start -->
+<div class="documentlist {{ pageclass }}" >
+    <div class="container"><ul>
+    {% for record in render_structure %}
+    {% for key,value in record.items  %}
+    <li class="cell">
+    {% for html_definition in value %}
+        <span class="field">
+            <{{ html_definition.tag }}{% for key,value in html_definition.attributes.items %} {{ key }}="{{ value }}"{% endfor %}>{{ html_definition.value }}</{{ html_definition.tag }}>
+        </span>
+    {% endfor %}
+    <div class="documentdownloadlink"><a href=/getdocument/{{ key }}>Download document &raquo;</a></div></li>{% endfor %}{% endfor %}
+    </ul></div>
+</div>
+<!-- documentlist tag end -->

@@ -1,0 +1,65 @@
+{% extends "laptopsupplychain/templates/networkviewer.html" %}
+
+{% load generictablerenderer %}
+
+{% block javascript1 %}
+
+    <style>
+        /* override basic page layout : the map occupies whole width */
+        div.region-sidebar-second
+        {
+            display:none;
+        }
+
+        .sidebar-second #content
+        {
+            width:960px;
+            margin-right:-960px;
+        }
+
+    </style>
+
+    {{ block.super }}
+{% endblock javascript1 %}
+
+
+{% block content %}
+    {% if form.errors %}
+        <div>Error in form</div>
+    {%  endif %}
+
+    {%  if editmode %}
+        <form method="post" class="pageedit">{% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Save" class="gobutton"/>
+        </form>
+    {%  endif %}
+
+    {% if not form.errors and not editmode%}
+    <div class="networkmanagerheader">
+        <h1>{{ page_title }}</h1>
+        <div class="tabbar">{{ nextbutton|safe }} {{ prevbutton|safe }}</div>
+        <h3>{{ page_subtitle }}</h3>
+        <div class="field">
+                <span class="fieldvalue TextField introtext">
+                    {{ starttext|safe }}
+                </span>
+            </div>
+    </div>
+
+
+     {% comment %} Insert the network viewer {% endcomment %}
+    {{ block.super }}
+
+    {% endif %}
+
+
+
+{% endblock content %}
+
+{% block rightcolumn %}
+<!-- no right column -->
+{% endblock rightcolumn %}
+

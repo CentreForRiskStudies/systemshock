@@ -1,0 +1,1216 @@
+body
+{
+    color: #666666;
+    line-height:20px;
+    font-family: "DroidSansRegular", "Arial", sans-serif;
+    font-size: 16px;
+}
+
+/* header */
+
+#logo
+{
+    float:left;
+}
+
+#logo a
+{
+    outline: none;
+}
+
+/* main page elements */
+
+#content div.section
+{
+    float:left;
+    padding-top:20px;
+    margin-bottom:20px;
+}
+
+div.region-sidebar-second
+{
+    padding-top:20px;
+}
+
+#sub_footer
+{
+    border-top:solid 1px #797979;
+    font-size:11px;
+    margin-top:30px;
+    padding-top:30px;
+    padding-bottom:20px;
+    font-family: DroidSansRegular, Arial, sans-serif;
+}
+
+#sub_footer a
+{
+    text-decoration:none;
+    color:#39c;
+}
+
+/* right sidebar */
+
+div.region-sidebar-second img#sidebar-header
+{
+    width:280px;
+    float:left;
+}
+div.region-sidebar-second div.rightsidebar
+{
+    width:258px;
+    border:solid 1px #ccc;
+    color:#ababa4;
+    font-size:14px;
+    float:left;
+    padding:10px;
+}
+
+div.region-sidebar-second div#crslink
+{
+    width:258px;
+    border-bottom:solid 1px #ccc;
+    border-left:solid 1px #ccc;
+    border-right:solid 1px #ccc;
+    float:left;
+    padding:0 10px 0 10px;
+}
+
+div.region-sidebar-second div#crslink a
+{
+    color:#666;
+    font-size:11px;
+    text-decoration:none;
+}
+
+div.region-sidebar-second div#crslink a:hover
+{
+    color:black;
+}
+
+/*side bar apps */
+div.region-sidebar-second div.rightsidebar div.app
+{
+    margin-bottom: 20px;
+    float:left;
+}
+
+div.region-sidebar-second div.rightsidebar div.app a
+{
+    color:#666;
+}
+
+/* links in right sidebar */
+div.region-sidebar-second div.rightsidebar div.app ul
+{
+    list-style: square;
+}
+
+div.region-sidebar-second div.rightsidebar div.app ul li a
+{
+
+    text-decoration: none;
+}
+
+div.region-sidebar-second div.rightsidebar div.app ul li a:hover
+{
+    color:black;
+}
+
+/* resources list */
+div.region-sidebar-second div.rightsidebar div.app div.resourceslist ul
+{
+    list-style-type:none;
+    list-style-position:outside;
+    list-style-image:none;
+    margin:0;
+    padding:0;
+}
+
+div.region-sidebar-second div.rightsidebar div.app div.resourceslist li
+{
+    margin-bottom:5px;
+}
+
+div.region-sidebar-second div.rightsidebar div.app div.resourceslist
+{
+    font-size:12px;
+    line-height: 12px;
+    color:#666;
+    margin-top:12px;
+}
+
+div.region-sidebar-second div.rightsidebar div.app div.resourceslist div.resourcesheader
+{
+    font-weight:bold;
+    margin-top:12px;
+    margin-bottom:5px;
+}
+
+div.region-sidebar-second div.rightsidebar div.app div.resourceslist a
+{
+    text-decoration: none;
+    font-size:10px;
+}
+
+div.region-sidebar-second div.rightsidebar div.app div.resourceslist a:hover
+{
+    color:black;
+}
+
+div.region-sidebar-second div.rightsidebar div.app div.resourceslist span.subtitle
+{
+    font-style: italic;
+}
+
+
+/* end of resources list */
+
+/* Google news feed */
+div#feed
+{
+    float:left;
+    width:280px;
+    margin-left:-10px;
+    overflow:hidden;
+}
+
+div#feed a,div#feed span#up,div#feed span#down
+{
+    color:#666!important;
+}
+
+div.gns-root,div.gns-ads
+{
+    width:279px!important;
+
+}
+div.gns-basecanvas
+{
+    width:276px!important;
+
+}
+
+div.gns-result
+{
+    width:265px!important;
+}
+
+div.gns-query-title
+{
+    font-size: 15px;
+    font-weight:normal;
+    width:268px!important;
+    color: #a71930;
+}
+
+/* end of Google news feed */
+
+/* home page upper grid */
+
+div.gridlist.homepage
+{
+    margin-top:20px;
+}
+
+div.gridlist.homepage div.container
+{
+
+}
+
+div.gridlist.homepage div.container ul
+{
+    list-style-type:none;
+    list-style-position:outside;
+    list-style-image:none;
+    margin:0;
+    padding:0;
+}
+
+div.gridlist.homepage li.cell
+{
+    width:300px;
+    margin-top:0px;
+    margin-right:20px;
+    margin-bottom:30px;
+    float:left;
+    overflow:hidden;
+    height:250px;
+}
+
+div.gridlist.homepage li.cell div
+{
+    float:left;
+}
+
+div.gridlist.homepage li.cell div span.name
+{
+    color:#39c;
+    text-decoration: none;
+    display:inline-block;
+    line-height:23px;
+    font-size:20px;
+}
+
+div.gridlist.homepage li.cell div span.displayidentifier
+{
+    color:#39c;
+    text-decoration: none;
+    margin-right:0.5em;
+    display:inline-block;
+}
+
+div.gridlist.homepage li.cell img
+{
+    margin-top:10px;
+}
+
+div.gridlist.homepage li.cell div span.subtitle
+{
+    text-decoration: none;
+    font-size:14px;
+    font-family:Arial,sans-serif;
+    color:#666666;
+    display:inline-block;
+    margin-top:5px;
+}
+
+/* end of home page grid */
+
+
+
+
+/* taxonomy grid */
+
+div.gridlist.taxonomy
+{
+    margin-top:20px;
+}
+
+div.gridlist.taxonomy div.container
+{
+
+}
+
+div.gridlist.taxonomy div.container ul
+{
+    list-style-type:none;
+    list-style-position:outside;
+    list-style-image:none;
+    margin:0;
+    padding:0;
+}
+
+div.gridlist.taxonomy li.cell
+{
+    width:210px;
+    margin-top:0px;
+    margin-right:20px;
+    margin-bottom:30px;
+    float:left;
+    overflow:hidden;
+    height:300px;
+}
+
+div.gridlist.taxonomy li.cell div
+{
+    float:left;
+}
+
+div.gridlist.taxonomy li.cell div span.name
+{
+   color:#39c;
+   text-decoration: none;
+    display:inline-block;
+}
+
+div.gridlist.taxonomy li.cell div span.displayidentifier
+{
+    color:#39c;
+    text-decoration: none;
+    margin-right:0.4em;
+    display:inline-block;
+}
+
+div.gridlist.taxonomy li.cell img
+{
+    margin-top:10px;
+}
+
+div.gridlist.taxonomy li.cell div span.subtitle
+{
+    text-decoration: none;
+    line-height:14px;
+    font-size:12px;
+    font-family:Arial,sans-serif;
+    color:#666666;
+    display:inline-block;
+    margin-top:10px;
+}
+
+/* end of taxonomy grid */
+
+
+/*  page forms generally */
+div.formview
+{
+
+}
+
+div.formview div.field img
+{
+    float:left;
+    margin-right:18px;
+    margin-bottom:20px;
+    border:solid 1px #999;
+}
+
+div.formview div.field span.displayidentifier
+{
+    float:left;
+    margin-right:0.5em;
+    margin-bottom:0px;
+}
+
+div.formview div.field span.subtitle
+{
+
+}
+
+div.formview div.field span.introtext,div.formview div.field span.maintext
+{
+    clear:both;
+    display:block;
+    font-size: 14px;
+    margin-bottom:18px;
+    /*width:600px; *//* for readability */
+}
+
+div.formview div.field span.introtext a,div.formview div.field span.maintext a
+{
+    color:#666;
+}
+
+div.formview ul
+{
+    list-style: square;
+    margin:0;
+}
+
+/* end of forms generally */
+
+/* Basic page */
+div.formview.basicpage div.container div.field img
+{
+
+}
+
+
+
+/* Lower sections of basic pages */
+
+/* generally */
+div.pagelower div.basicpage div.container ul
+{
+    list-style-type:none;
+    list-style-position:outside;
+    list-style-image:none;
+    margin:0;
+    padding:0;
+}
+
+div.pagelower div.basicpage div.container a
+{
+   text-decoration:none;
+   color:#797979;
+}
+
+div.pagelower div.basicpage div.container li.cell a:hover
+{
+    /*color:black;*/
+}
+
+/* gridlist in the page matrix with portrait images */
+div.pagelower.pagematrixportrait
+{
+    margin-top:20px;
+}
+
+div.pagelower.pagematrixportrait div.gridlist li.cell
+{
+    width:300px;
+    margin-top:0px;
+    margin-right:30px;
+    margin-bottom:30px;
+    float:left;
+    overflow:hidden;
+    height:135px;
+}
+
+div.pagelower.pagematrixportrait div.gridlist li.cell div
+{
+    float:left;
+}
+
+div.pagelower.pagematrixportrait div.gridlist li.cell img
+{
+    height:110px;
+    width:110px;
+    margin-right:15px;
+}
+
+div.pagelower.pagematrixportrait div.gridlist li.cell div span.name
+{
+    text-decoration: none;
+    display:inline-block;
+    font-size:16px;
+    width:170px;
+    margin-bottom:2px;
+    color:#39c;
+}
+
+div.pagelower.pagematrixportrait div.gridlist li.cell div span.subtitle
+{
+    text-decoration: none;
+    display:inline-block;
+    line-height:1.5em;
+    font-size:12px;
+    width:170px;
+}
+/* end of gridlist in the page matrix with portrait images */
+
+/* document list with portait images */
+
+div.pagelower.documentlistportrait
+{
+    margin-top:20px;
+}
+
+div.pagelower.documentlistportrait div.documentlist li.cell
+{
+    width:500px;
+    margin-top:0px;
+    margin-bottom:30px;
+    clear:both;
+    float:left;
+}
+
+div.pagelower.documentlistportrait div.documentlist li.cell img
+{
+    height:140px;
+    width:100px;
+    margin-right:15px;
+    border:solid 1px #797979;
+    float:left;
+}
+
+div.pagelower.documentlistportrait div.documentlist li.cell span
+{
+    display:block;
+    float:left;
+}
+
+div.pagelower.documentlistportrait div.documentlist li.cell span span.name
+{
+    text-decoration: none;
+    display:inline-block;
+    font-size:14px;
+    width:380px;
+    margin-bottom:10px;
+    float:right;
+}
+
+div.pagelower.documentlistportrait div.documentlist li.cell span span.introtext
+{
+    text-decoration: none;
+    display:inline-block;
+    font-size:12px;
+    width:380px;
+    float:right;
+}
+
+div.pagelower.documentlistportrait div.documentlist li.cell div.documentdownloadlink
+{
+    text-decoration: none;
+    font-size:12px;
+    width:380px;
+    float:right;
+}
+
+div.pagelower.documentlistportrait div.documentlist li.cell div.documentdownloadlink a
+{
+    color: #a71930;
+    display:inline-block;
+    margin-left:-3px;
+}
+
+div.pagelower.documentlistportrait div.documentlist li.cell div.documentdownloadlink a:hover
+{
+    text-decoration:underline;
+}
+
+
+/* end if Lower sections of basic pages */
+
+
+/* Basic Page in wizard mode */
+div.wizardheader
+{
+    width:940px;
+}
+
+div.wizardheader h1
+{
+    width:500px;
+    float:left;
+}
+
+div.wizardheader h3
+{
+    clear:both;
+}
+
+/* end of Basic Page in wizard mode */
+
+/* threatclass page - table of threat types */
+div.threattypetableborder
+{
+    margin-top:10px;
+    border:solid 3px #ccc;
+    float:left;
+    width:640px;
+    font-size: 12px;
+}
+
+div.threattypetableborder a
+{
+    color:#666;
+}
+
+div.threattypetableborder a:hover
+{
+    color:black;
+}
+
+div.threattypetableborder div.tableheading
+{
+    float:left;
+    background-color: #eee;
+}
+
+div.threattypetableborder div.tableheading div.classheader
+{
+    float:left;
+    width:270px;
+    margin-left:10px;
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+div.threattypetableborder div.tableheading div.descriptionheader
+{
+    float:right;
+    width:349px;
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-left:10px;
+    border-left:solid 1px #ccc;
+}
+
+div.gridlist.threatengine-threatclass
+{
+
+}
+
+div.gridlist.threatengine-threatclass div.container
+{
+
+}
+
+div.gridlist.threatengine-threatclass div.container ul
+{
+    list-style-type:none;
+    list-style-position:outside;
+    list-style-image:none;
+    margin:0;
+    padding:0;
+}
+
+div.gridlist.threatengine-threatclass div.container ul li
+{
+    border-top: solid 1px #ccc;
+    clear:both;
+}
+
+div.gridlist.threatengine-threatclass li.cell img
+{
+    margin:3px 10px 3px 3px;
+    float:left;
+    border:solid 1px #999;
+}
+
+div.gridlist.threatengine-threatclass li.cell div.field span.name
+{
+    float:left;
+    font-weight:bold;
+    padding-top:10px;
+    height:70px;
+    width:150px;
+}
+
+div.gridlist.threatengine-threatclass li.cell div.field span.displayidentifier
+{
+    float:left;
+    margin-right:0.5em;
+    padding-top:10px;
+    height:70px;
+}
+
+div.gridlist.threatengine-threatclass li.cell div.field span.subtitle
+{
+    float:right;
+    width:339px;
+    padding-top:10px;
+    padding-right:10px;
+    padding-left:10px;
+    border-left:solid 1px #ccc;
+    height:80px;
+}
+
+/* end of threatclass page */
+
+/* threattype page */
+div.formview.threatengine-threattype div.field span.introtext,div.formview.threatengine-threattype div.field span.maintext
+{
+    display:block;
+    margin-left:100px;
+    font-size:14px;
+    width:530px;
+}
+
+div.formview.threatengine-threattype div.field span.threatclassid
+{
+    font-size:12px;
+    text-transform:uppercase;
+}
+
+div.formview.threatengine-threattype div.field span.threatclassid a
+{
+    color:#666;
+    text-decoration:none;
+}
+
+div.formview.threatengine-threattype div.field span.threatclassid a:hover
+{
+    color:black;
+
+}
+
+/* end of threattype page */
+
+/* comment section */
+div#commentheader
+{
+    width:640px;
+    padding-top:8px;
+}
+
+div#commentheader h5
+{
+
+}
+
+div#commentslist
+{
+    width:640px;
+    float:left;
+}
+
+div#commentslist dl#comments
+{
+    margin-top:8px;
+}
+div#commentslist dl#comments dt
+{
+    font-size:12px;
+}
+
+div#commentslist dl#comments dt div#commentername
+{
+    font-weight:bold;
+}
+
+div#commentslist dl#comments dd
+{
+    margin:0 0 8px 0;
+    padding:0 0 8px 0;
+    border-bottom:solid 1px #ccc;
+    font-size:14px;
+}
+
+div#commentsform
+{
+    width:624px;
+    float:left;
+    border:solid 3px #ccc;
+    padding:5px;
+    font-size:14px;
+}
+
+div#commentsform textarea
+{
+    width:618px;
+}
+
+div#notloggedin
+{
+    width:640px;
+    float:left;
+    font-size:14px;
+}
+
+div#notloggedin a
+{
+    color:#666;
+}
+
+div.loginform
+{
+    font-size:12px;
+}
+
+div.loginform td
+{
+    padding: 0 5px 10px 0;
+}
+
+div#previewform
+{
+    font-size:12px;
+}
+
+div#previewform td
+{
+    padding: 0 5px 10px 0;
+}
+
+div#previewform tr.error
+{
+    background-color: #ccc;
+}
+
+
+/* end of comment section */
+
+/* menu */
+.jqueryslidemenu {
+    font-family: 'DroidSansRegular', Arial, sans-serif;
+    background: transparent;
+    /*width: 100%;*/
+}
+.jqueryslidemenu ul {
+    margin: 8px 0 0 0;  /* adjust menu relative to logo */
+    padding: 0;
+    list-style-type: none;
+    z-index:9999999;
+    float:right;
+}
+/*Top level list items*/
+.jqueryslidemenu ul li {
+    position: relative;
+    display: inline;
+    float: left;
+    margin-top:0 !important;
+}
+/*Top level menu link items style*/
+.jqueryslidemenu ul li a {
+    display: block;
+    background: transparent; /*background of tabs (default state)*/
+    padding: 10px 7px;
+    text-decoration: none;
+    text-transform:uppercase;
+}
+* html .jqueryslidemenu ul li a { /*IE6 hack to get sub menu links to behave correctly*/
+    display: inline-block;
+}
+.jqueryslidemenu ul li a:link, .jqueryslidemenu ul li a:visited {
+    color: #666;
+}
+.jqueryslidemenu ul li a:hover {
+    background: transparent; /*tab link background during hover state*/
+    color: #000;
+}
+.jqueryslidemenu ul li ul li:hover {
+    background:#f5f5f5;
+}
+/*1st sub level menu*/
+.jqueryslidemenu ul li ul {
+    position: absolute;
+    left: 0;
+    display: block;
+    visibility: hidden;
+    background-color: #fff;
+    -webkit-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+    -moz-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+    -ms-box-shadow:0px 0px 2px rgba(0, 0, 0, 0.2);
+    -o-box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 0px 2px rgba(0, 0, 0, 0.2);
+}
+/*Sub level menu list items (undo style from Top level List Items)*/
+.jqueryslidemenu ul li ul li {
+    display: list-item;
+    float: none;
+    font-size:11px;
+}
+/*All subsequent sub menu levels vertical offset after 1st level sub menu */
+.jqueryslidemenu ul li ul li ul {
+    top: 0;
+}
+/* Sub level menu links style */
+.jqueryslidemenu ul li ul li a {
+    width: 120px; /*width of sub menus*/
+    padding: 5px 10px 5px 10px;
+    margin: 0;
+}
+.jqueryslidemenuz ul li ul li a:hover { /*sub menus hover style*/
+    background: #eff9ff;
+    color: black;
+}
+/* ######### CSS classes applied to down and right arrow images  ######### */
+
+.downarrowclass {
+    position: absolute;
+    top: 12px;
+    right: 7px;
+}
+.rightarrowclass {
+    position: absolute;
+    top: 6px;
+    right: 5px;
+}
+
+#nav ul li #active {
+    font-weight: normal;
+    font-family: Arial, Helvetica, sans-serif;
+    color: #a71930;
+}
+
+#nav ul li a {
+    font-size: 11px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+/* end of menu */
+
+div.d3message
+{
+    display:none;
+}
+
+.lt-ie9 div.d3message
+{
+    display:block;
+    margin-top:5em;
+    text-align: center;
+    font-weight:bold;
+}
+
+.lt-ie9 div#container
+{
+    display:none;
+}
+
+/* forms generally */
+form
+{
+    font-size:12px;
+}
+form textarea
+{
+    width:500px;
+}
+
+
+
+
+/* map */
+
+/* basic settings for all nodes */
+.node {
+    stroke: #333;
+    stroke-width: 1.0px;
+}
+
+/* node colours */
+.node.style-1 { fill :rgb(255,255,0); }
+.node.style0 { fill :rgb(255,0,0); }
+.node.style1 { fill :rgb(255,127,7); }
+.node.style2 { fill :rgb(185,197,35); }
+.node.style3 { fill :rgb(0,168,43); }
+.node.style4 { fill :rgb(0,80,0); }
+
+/* node colours for a second layer*/
+.node.style-1.layer1 { fill :rgb(192,192,192); stroke: rgb(128,128,128);}
+.node.style0.layer1 { fill :rgb(192,192,192);  stroke: rgb(128,128,128);}
+.node.style1.layer1 { fill :rgb(192,192,192);  stroke: rgb(128,128,128); }
+.node.style2.layer1 { fill :rgb(192,192,192);  stroke: rgb(128,128,128);}
+.node.style3.layer1 { fill :rgb(192,192,192);  stroke: rgb(128,128,128);}
+.node.style4.layer1 { fill :rgb(192,192,192);  stroke: rgb(128,128,128);}
+
+
+/* footprint highlight */
+.footprintnode
+{
+    stroke: #333;
+    stroke-width: 1px;
+    fill: #08E9EB;
+}
+
+.link {
+    stroke: rgb(168,168,168);
+    stroke-opacity: .6;
+}
+
+
+
+div.mapbuttons
+{
+    width:930px;
+    border-top:solid 1px #aaa;
+    border-left:solid 1px #aaa;
+    border-right:solid 1px #aaa;
+    padding:5px;
+    font-size:12px;
+    height:2em;
+}
+
+div.mapbuttons input
+{
+    font-size:12px;
+}
+
+div.mapbuttons div.metrics
+{
+    float:right;
+}
+
+/* popup */
+div#popup,div#popup1
+{
+    position:absolute;
+    width:130px;
+    height:150px;
+    top:0px;
+    left:0px;
+    display:none;
+    z-index:10000;
+    background-color:#000;
+    opacity:0.7;
+    color:#fff;
+    padding:10px;
+    font-size:12px;
+    border-radius: 5px;
+}
+
+div#popup div.n, div#popup1 div.n /* node name */
+{
+    font-style:italic;
+}
+
+div#popup div.t, div#popup1 div.t /* tier */
+{
+    color:rgb(70,149,162);
+    font-weight:bold;
+    font-size:14px;
+}
+
+div#popup div.a, div#popup1 div.a /* activity */
+{
+    text-transform:uppercase;
+    font-size:16px;
+    font-weight:bold;
+    color:rgb(166,163,66)
+}
+
+
+/* fincatrun page */
+
+/* edit form */
+form.fincatrun table th, form.fincatrun table td
+{
+    padding: 0 18px 18px 0;
+    font-size:14px;
+}
+
+form.fincatrun input,form.fincatrun select
+{
+    width:100%;
+}
+
+form.fincatrun input.gobutton
+{
+    width:100px;
+}
+
+
+/* results display */
+div.fincatheader
+{
+
+}
+div.fincatheader h1
+{
+    width:500px;
+    float:left;
+}
+
+
+div.fincatheader h3
+{
+    clear:both;
+}
+
+
+
+div.fincatheader div.field span.introtext
+{
+    clear:both;
+    display:block;
+    font-size: 14px;
+    margin-bottom:18px;
+}
+
+div.fincatheader div.field span.introtext a
+{
+    color:#666;
+}
+
+div.fincatmodelsettings
+{
+    width:930px;
+    border-top:solid 1px #aaa;
+    border-left:solid 1px #aaa;
+    border-right:solid 1px #aaa;
+    padding:5px;
+    font-size:12px;
+    float:left;
+}
+
+div.formviewwithlabels.fincatrun div.label
+{
+    float:left;
+    margin-right:3px;
+}
+
+div.formviewwithlabels.fincatrun div.field
+{
+    float:left;
+    margin-right:18px;
+    font-weight:bold;
+}
+
+div.formviewwithlabels.fincatrun div.field a
+{
+    color:#777;
+}
+
+div.fincatresultscontainer
+{
+    font-size:12px;
+}
+
+div.fincatresultscontainer table
+{
+    border-collapse: collapse;
+    margin-top:0;
+    width:100%;
+    clear:both;
+}
+
+div.fincatresultscontainer th,div.fincatresultscontainer td
+{
+    padding:5px;
+    border:solid 1px #aaa;
+}
+
+/* end of fincatrun page */
+
+
+
+/* Network manager / laptop page */
+div.networkmanagerheader
+{
+
+}
+div.networkmanagerheader h1
+{
+    width:400px;
+    float:left;
+}
+
+
+div.networkmanagerheader h3
+{
+    clear:both;
+}
+
+
+
+div.networkmanagerheader div.field span.introtext
+{
+    clear:both;
+    display:block;
+    font-size: 14px;
+    margin-bottom:18px;
+}
+
+div.networkmanagerheader div.field span.introtext a
+{
+    color:#666;
+}
+
+/* end of networkmanager */
+
+
+
+
+/* tabbar - the buttons that say next previous etc */
+div.tabbar
+{
+    width:270px;
+    float:right;
+}
+
+div.tabbar a
+{
+    width:70px;
+    height:20px;
+    background-color:#ccc;
+    margin-left:20px;
+    float:right;
+    display:block;
+    padding:5px;
+    text-align: center;
+    text-decoration:none;
+    color:#666;
+    font-size:14px;
+}
+
+div.tabbar a:hover
+{
+    background-color:#aaa;
+}
+
+table.tweettable
+{
+    border-collapse: collapse;
+}
+
+table.tweettable td
+{
+    font-size:11px;
+    padding:5px;
+    vertical-align: top;
+    border:solid 1px #ccc;
+}
+
+

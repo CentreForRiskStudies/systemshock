@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% load generictablerenderer %}
+
+
+{% block content %}
+
+    {% if form.errors %}
+        <div>Error in form</div>
+    {%  endif %}
+
+    {%  if editmode %}
+        <form method="post" class="pageedit">{% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Save" class="gobutton"/>
+        </form>
+    {%  endif %}
+
+    {% if not form.errors and not editmode%}
+    {% formview field_structure=tablesetup1 %}
+    {%  endif %}
+
+{% endblock content %}
+
+{% block appcontainer %}
+    <div>Scenarios: Not yet available</div>
+{% endblock appcontainer %}
+
+{% block comments %}
+    {% comment %} include the commenting system on this page {% endcomment %}
+    {% include "comments.html" %}
+{% endblock comments %}

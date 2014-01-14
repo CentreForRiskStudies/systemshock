@@ -1,0 +1,50 @@
+{% block nav %}
+
+    <!--[if lte IE 7]><style>.lt-ie9 #navigation{height:85px;margin-left:-10px;}</style><![endif]-->
+
+    <!-- logo -->
+    <div id="logo" class="grid_3 alpha">
+        <a href="/home"><img src="{{ STATIC_URL }}logo.png" /></a>
+    </div>
+    <!--start navigation-->
+    <div id="nav" class="grid_9 push_3 omega jqueryslidemenu">
+        <ul>
+            <li><a href="/home">Home</a></li>
+
+            {% comment %}
+            <li><a href="#">What is a shock?</a>
+                <ul>
+                    <li><a href="#">Second Link</a></li>
+                    <li><a href="#">Second Link</a></li>
+                </ul>
+            </li>
+            {% endcomment %}
+
+            <li><a href="/about">About</a></li>
+            <li><a href="/contribute">Contribute</a></li>
+            <li><a href="/downloads">Downloads</a></li>
+            <li><a href="/contact">Contact Us</a></li>
+
+
+            {% if user.is_authenticated %}
+                {% if user.is_staff %}
+                    {%  if editmode %}
+                        <li><a href="{{ editlink }}">View</a></li>
+                    {% else %}
+                        <li><a href="{{ editlink }}/edit/">Edit</a></li>
+                    {% endif %}
+                {% else %}
+                    <li><a href="/logout">Log out</a></li>
+                {% endif %}
+            {% else %}
+                <li><a href="/login">Log in</a></li>
+            {% endif %}
+
+
+
+
+        </ul>
+    </div>
+    <!--end navigation-->
+
+{% endblock nav %}

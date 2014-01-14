@@ -1,0 +1,521 @@
+<parameters>
+    <simulator>
+        <parameter name="runDescriptor" value="test1" />
+        <parameter name="assetSalesFactor" value="1.1" /> <!-- fudge factor applied when selling assets -->
+        <parameter name="logLevel" value="debug" />
+        <parameter name="graphFile" value="countries.gexf" />
+        <parameter name="randomSeed" value="123443" />
+        <parameter name="maxDefaultRatio" value="0.9999" /> <!-- can't default by less than 1 p in 100 pound -->
+        <parameter name="balanceSheetMethod" value="assets" />
+        <parameter name="followBank" value="Greece" />
+
+        <!-- default economy parameters -->
+        <parameter name="targetCashProportion" value="0.01" /> <!-- go for non-negative cash -->
+        <parameter name="fireSaleFactor" value="10"  /> <!-- factor applied when selling investments -->
+        <parameter name="investmentCount" value="10"  /> <!-- number of investments to create -->
+        <parameter name="investmentShockFactor" value="0.0" /> <!-- no investment shock -->
+        <parameter name="investmentShockProportion" value="1.0" /> <!-- applies to all investments in the economy -->
+
+        <!-- default bank parameters -->
+        <parameter name="financialAssetRatio" value=".5"  />
+        <parameter name="capitalRatio" value="0.06" />
+        <parameter name="financialLiabilityRatio" value="0.2"  />
+        <parameter name="cashRatio" value="0.08"  />
+        <parameter name="loanSize" value="100" />  <!-- standard size -->
+        <parameter name="loanSD" value="2" />
+        <parameter name="loanSizeType" value="perBank" /> <!-- size is total for all loans -->
+        <parameter name="homeInvestmentProp" value="0.8" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.5" /> <!-- somewhat diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.1" /> <!-- not very diversified at all -->
+        <parameter name="depositShockFactor" value="0.0" /> <!-- no deposit withdrawals -->
+        <parameter name="loanShockFactor" value="0.0" />  <!-- no loan maturities -->
+
+
+    </simulator>
+
+    <economy name="Europe">
+        <parameter name="loanSize" value="200" />  <!-- standard size -->
+
+    </economy>
+
+    <economy name="NW_Asia">
+
+    </economy>
+
+    <economy name="SAmerica_Caribbean">
+
+    </economy>
+
+    <economy name="Africa">
+
+    </economy>
+
+    <economy name="Asia">
+
+    </economy>
+
+    <economy name="Australasia">
+        <parameter name="loanSize" value="200" />  <!-- standard size -->
+
+
+    </economy>
+
+    <economy name="N_America">
+        <parameter name="loanSize" value="200" />  <!-- standard size -->
+        <parameter name="capitalRatio" value="0.06" />
+        <parameter name="financialLiabilityRatio" value="0.4"  />
+        <parameter name="cashRatio" value="0.02"  />
+
+
+    </economy>
+
+    <economy name="MEast_Africa">
+
+    </economy>
+
+    <bank name="Canada" economy="N_America" location="POINT(-75.666667 45.400000)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Sao Tome and Principe" economy="Africa" location="POINT(6.733333 0.333333)" core="False">
+    </bank>
+    <bank name="Turkmenistan" economy="Europe" location="POINT(58.333333 37.966667)" core="False">
+    </bank>
+    <bank name="Lithuania" economy="Europe" location="POINT(25.316667 54.683333)" core="False">
+    </bank>
+    <bank name="Cambodia" economy="Asia" location="POINT(104.916667 11.550000)" core="False">
+    </bank>
+    <bank name="Ethiopia" economy="Africa" location="POINT(38.740000 9.030000)" core="False">
+    </bank>
+    <bank name="Aruba" economy="SAmerica_Caribbean" location="POINT(-70.033333 12.516667)" core="False">
+    </bank>
+    <bank name="Swaziland" economy="Africa" location="POINT(31.133333 -26.316667)" core="False">
+    </bank>
+    <bank name="Belize" economy="SAmerica_Caribbean" location="POINT(-88.766667 17.250000)" core="False">
+    </bank>
+    <bank name="Argentina" economy="SAmerica_Caribbean" location="POINT(-58.383333 -34.600000)" core="False">
+    </bank>
+    <bank name="Bolivia" economy="SAmerica_Caribbean" location="POINT(-63.166667 -17.800000)" core="False">
+    </bank>
+    <bank name="Cameroon" economy="Africa" location="POINT(11.516667 3.866667)" core="False">
+    </bank>
+    <bank name="Burkina Faso" economy="Africa" location="POINT(-1.666667 12.333333)" core="False">
+    </bank>
+    <bank name="Ghana" economy="Africa" location="POINT(-0.250000 5.550000)" core="False">
+    </bank>
+    <bank name="Saudi Arabia" economy="MEast_Africa" location="POINT(46.766667 4.650000)" core="False">
+    </bank>
+    <bank name="Cape Verde" economy="Africa" location="POINT(-23.516667 14.916667)" core="False">
+    </bank>
+    <bank name="Slovenia" economy="Europe" location="POINT(14.500000 46.050000)" core="False">
+    </bank>
+    <bank name="Guatemala" economy="SAmerica_Caribbean" location="POINT(-90.500000 14.633333)" core="False">
+    </bank>
+    <bank name="Kuwait" economy="MEast_Africa" location="POINT(47.966667 29.366667)" core="False">
+    </bank>
+    <bank name="Jordan" economy="MEast_Africa" location="POINT(35.933333 31.950000)" core="False">
+    </bank>
+    <bank name="Bosnia and Herzogovina" economy="Europe" location="POINT(18.416667 43.866667)" core="False">
+    </bank>
+    <bank name="Spain" economy="Europe" location="POINT(-3.700000 40.433333)" core="False">
+    </bank>
+    <bank name="Liberia" economy="Africa" location="POINT(-10.800000 6.316667)" core="False">
+    </bank>
+    <bank name="St Vincent" economy="SAmerica_Caribbean" location="POINT(-61.233333 13.166667)" core="False">
+    </bank>
+    <bank name="Netherlands" economy="Europe" location="POINT(4.883333 52.366667)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Jamaica" economy="SAmerica_Caribbean" location="POINT(-76.800000 17.983333)" core="False">
+    </bank>
+    <bank name="Oman" economy="MEast_Africa" location="POINT(58.550000 23.600000)" core="False">
+    </bank>
+    <bank name="Tanzania" economy="Africa" location="POINT(39.283333 -6.800000)" core="False">
+    </bank>
+    <bank name="Costa Rica" economy="SAmerica_Caribbean" location="POINT(-84.083333 9.933333)" core="False">
+    </bank>
+    <bank name="Gabon" economy="Africa" location="POINT(9.450000 0.383333)" core="False">
+    </bank>
+    <bank name="New Zealand" economy="Australasia" location="POINT(174.450000 -41.283333)" core="False">
+    </bank>
+    <bank name="Yemen" economy="MEast_Africa" location="POINT(44.200000 15.333333)" core="False">
+    </bank>
+    <bank name="Pakistan" economy="NW_Asia" location="POINT(73.166667 33.666667)" core="False">
+    </bank>
+    <bank name="Albania" economy="Europe" location="POINT(19.800000 41.333333)" core="False">
+    </bank>
+    <bank name="Samoa" economy="Asia" location="POINT(-171.750000 -13.833333)" core="False">
+    </bank>
+    <bank name="United Arab Emirates" economy="MEast_Africa" location="POINT(54.366667 24.466667)" core="False">
+    </bank>
+    <bank name="India" economy="NW_Asia" location="POINT(77.208333 28.613333)" core="False">
+    </bank>
+    <bank name="Azerbaijan" economy="Europe" location="POINT(49.833333 40.416667)" core="False">
+    </bank>
+    <bank name="Lesotho" economy="Africa" location="POINT(27.933333 -29.466667)" core="False">
+    </bank>
+    <bank name="Kenya" economy="Africa" location="POINT(36.800000 -1.266667)" core="False">
+    </bank>
+    <bank name="South Korea" economy="Asia" location="POINT(126.966667 37.550000)" core="False">
+    </bank>
+    <bank name="Tajikistan" economy="Europe" location="POINT(68.800000 38.550000)" core="False">
+    </bank>
+    <bank name="Turkey" economy="Europe" location="POINT(32.833333 39.916667)" core="False">
+    </bank>
+    <bank name="Afghanistan" economy="NW_Asia" location="POINT(69.133333 34.533333)" core="False">
+    </bank>
+    <bank name="Czech Republic" economy="Europe" location="POINT(14.466667 50.083333)" core="False">
+    </bank>
+    <bank name="Solomon Islands" economy="Asia" location="POINT(159.816667 -9.466667)" core="False">
+    </bank>
+    <bank name="Mongolia" economy="Asia" location="POINT(106.883333 47.916667)" core="False">
+    </bank>
+    <bank name="France" economy="Europe" location="POINT(2.350833 48.856667)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Rwanda" economy="Africa" location="POINT(30.059450 -1.943883)" core="False">
+    </bank>
+    <bank name="Slovakia" economy="Europe" location="POINT(17.116667 48.150000)" core="False">
+    </bank>
+    <bank name="Somalia" economy="Africa" location="POINT(45.350000 2.033333)" core="False">
+    </bank>
+    <bank name="Peru" economy="SAmerica_Caribbean" location="POINT(-77.028333 -12.043333)" core="False">
+    </bank>
+    <bank name="Vanuatu" economy="Asia" location="POINT(168.300000 -17.750000)" core="False">
+    </bank>
+    <bank name="Norway" economy="Europe" location="POINT(10.683333 59.933333)" core="False">
+    </bank>
+    <bank name="Malawi" economy="Africa" location="POINT(33.700000 -13.950000)" core="False">
+    </bank>
+    <bank name="Benin" economy="Africa" location="POINT(2.600000 6.466667)" core="False">
+    </bank>
+    <bank name="Singapore" economy="Asia" location="POINT(103.833333 1.283333)" core="False">
+    </bank>
+    <bank name="Montenegro" economy="Europe" location="POINT(19.466667 42.783333)" core="False">
+    </bank>
+    <bank name="Togo" economy="Africa" location="POINT(1.216667 6.116667)" core="False">
+    </bank>
+    <bank name="China" economy="Asia" location="POINT(116.383333 39.916667)" core="False">
+    </bank>
+    <bank name="Armenia" economy="Europe" location="POINT(44.516667 40.183333)" core="False">
+    </bank>
+    <bank name="Dominican Republic" economy="SAmerica_Caribbean" location="POINT(-70.666667 19.000000)" core="False">
+    </bank>
+    <bank name="Ukraine" economy="Europe" location="POINT(30.500000 50.450000)" core="False">
+    </bank>
+    <bank name="Bahrain" economy="MEast_Africa" location="POINT(50.583333 26.216667)" core="False">
+    </bank>
+    <bank name="Tonga" economy="Asia" location="POINT(-175.200000 -21.133333)" core="False">
+    </bank>
+    <bank name="Finland" economy="Europe" location="POINT(24.933333 60.166667)" core="False">
+    </bank>
+    <bank name="Libya" economy="MEast_Africa" location="POINT(13.183333 32.866667)" core="False">
+    </bank>
+    <bank name="Indonesia" economy="Asia" location="POINT(106.828333 -6.175000)" core="False">
+    </bank>
+    <bank name="Central African Republic" economy="Africa" location="POINT(18.583333 4.366667)" core="False">
+    </bank>
+    <bank name="Mauritius" economy="Africa" location="POINT(57.516667 -20.166667)" core="False">
+    </bank>
+    <bank name="Sweden" economy="Europe" location="POINT(18.066667 59.350000)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Vietnam" economy="Asia" location="POINT(105.850000 21.033333)" core="False">
+    </bank>
+    <bank name="Mali" economy="Africa" location="POINT(-8.000000 12.650000)" core="False">
+    </bank>
+    <bank name="St Lucia" economy="SAmerica_Caribbean" location="POINT(-60.983333 14.016667)" core="False">
+    </bank>
+    <bank name="Russia" economy="Europe" location="POINT(37.616667 55.750000)" core="False">
+    </bank>
+    <bank name="Bulgaria" economy="Europe" location="POINT(23.316667 42.683333)" core="False">
+    </bank>
+    <bank name="United States" economy="N_America" location="POINT(-77.016667 38.883333)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Romania" economy="Europe" location="POINT(26.100000 44.416667)" core="False">
+    </bank>
+    <bank name="Angola" economy="Africa" location="POINT(13.333333 -8.833333)" core="False">
+    </bank>
+    <bank name="Chad" economy="Africa" location="POINT(16.033333 12.100000)" core="False">
+    </bank>
+    <bank name="South Africa" economy="Africa" location="POINT(28.033333 -26.200000)" core="False">
+    </bank>
+    <bank name="Cyprus" economy="Europe" location="POINT(33.466667 35.133333)" core="False">
+        <parameter name="depositShockFactor" value=".5" />
+
+    </bank>
+    <bank name="Malaysia" economy="Asia" location="POINT(101.683333 3.133333)" core="False">
+    </bank>
+    <bank name="Austria" economy="Europe" location="POINT(16.350000 48.200000)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Mozambique" economy="Africa" location="POINT(32.583333 -25.950000)" core="False">
+    </bank>
+    <bank name="Uganda" economy="Africa" location="POINT(32.566667 0.300000)" core="False">
+    </bank>
+    <bank name="Kyrgyz Republic" economy="Europe" location="POINT(74.600000 42.866667)" core="False">
+    </bank>
+    <bank name="Japan" economy="Asia" location="POINT(139.766667 35.683333)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Niger" economy="Africa" location="POINT(2.083333 13.533333)" core="False">
+    </bank>
+    <bank name="Brazil" economy="SAmerica_Caribbean" location="POINT(-47.866667 -15.783333)" core="False">
+    </bank>
+    <bank name="Guinea" economy="Africa" location="POINT(-13.700000 9.516667)" core="False">
+    </bank>
+    <bank name="Panama" economy="SAmerica_Caribbean" location="POINT(-79.533333 8.966667)" core="False">
+    </bank>
+    <bank name="Guyana" economy="SAmerica_Caribbean" location="POINT(-58.166667 6.766667)" core="False">
+    </bank>
+    <bank name="Qatar" economy="MEast_Africa" location="POINT(51.516667 25.300000)" core="False">
+    </bank>
+    <bank name="Luxembourg" economy="Europe" location="POINT(6.116667 49.600000)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Bahamas" economy="SAmerica_Caribbean" location="POINT(-77.333333 25.066667)" core="False">
+    </bank>
+    <bank name="Ireland" economy="Europe" location="POINT(-6.267500 53.344167)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Syria" economy="MEast_Africa" location="POINT(36.300000 33.500000)" core="False">
+    </bank>
+    <bank name="Nigeria" economy="Africa" location="POINT(7.483333 9.066667)" core="False">
+    </bank>
+    <bank name="Ecuador" economy="SAmerica_Caribbean" location="POINT(-78.350000 -0.150000)" core="False">
+    </bank>
+    <bank name="Bangladesh" economy="NW_Asia" location="POINT(90.350000 23.700000)" core="False">
+    </bank>
+    <bank name="Brunei" economy="NW_Asia" location="POINT(114.942217 4.890283)" core="False">
+    </bank>
+    <bank name="Australia" economy="Australasia" location="POINT(149.124500 -35.308000)" core="False">
+    </bank>
+    <bank name="Iran" economy="MEast_Africa" location="POINT(51.416667 35.683333)" core="False">
+    </bank>
+    <bank name="Algeria" economy="MEast_Africa" location="POINT(3.216667 36.700000)" core="False">
+    </bank>
+    <bank name="El Salvador" economy="SAmerica_Caribbean" location="POINT(-89.166667 13.666667)" core="False">
+    </bank>
+    <bank name="Macedonia FYR" economy="Europe" location="POINT(21.433333 42.000000)" core="False">
+    </bank>
+    <bank name="Chile" economy="SAmerica_Caribbean" location="POINT(-70.666667 -33.433333)" core="False">
+    </bank>
+    <bank name="Belgium" economy="Europe" location="POINT(4.350000 50.850000)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Kiribati" economy="Asia" location="POINT(173.033333 1.466667)" core="False">
+    </bank>
+    <bank name="Haiti" economy="SAmerica_Caribbean" location="POINT(-72.333333 18.533333)" core="False">
+    </bank>
+    <bank name="Iraq" economy="MEast_Africa" location="POINT(44.433333 33.333333)" core="False">
+    </bank>
+    <bank name="Hong Kong" economy="Asia" location="POINT(114.166667 22.250000)" core="False">
+    </bank>
+    <bank name="Sierra Leone" economy="Africa" location="POINT(-13.234450 8.484450)" core="False">
+    </bank>
+    <bank name="Georgia" economy="Europe" location="POINT(44.783333 41.716667)" core="False">
+    </bank>
+    <bank name="Denmark" economy="Europe" location="POINT(12.566667 55.716667)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Philippines" economy="Asia" location="POINT(121.000000 14.583333)" core="False">
+    </bank>
+    <bank name="Moldova" economy="Europe" location="POINT(28.916667 47.000000)" core="False">
+    </bank>
+    <bank name="Congo Democratic Republic" economy="Africa" location="POINT(15.316667 -4.316667)" core="False">
+    </bank>
+    <bank name="Morocco" economy="MEast_Africa" location="POINT(-6.850000 34.033333)" core="False">
+    </bank>
+    <bank name="Namibia" economy="Africa" location="POINT(17.086117 -22.570000)" core="False">
+    </bank>
+    <bank name="Malta" economy="Europe" location="POINT(14.500000 35.883333)" core="False">
+    </bank>
+    <bank name="Guinea-Bissau" economy="Africa" location="POINT(-15.600000 11.866667)" core="False">
+    </bank>
+    <bank name="Thailand" economy="Asia" location="POINT(100.483333 13.750000)" core="False">
+    </bank>
+    <bank name="Switzerland" economy="Europe" location="POINT(7.450000 46.950000)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Grenada" economy="SAmerica_Caribbean" location="POINT(-61.750000 12.050000)" core="False">
+    </bank>
+    <bank name="Seychelles" economy="Africa" location="POINT(55.450000 -4.616667)" core="False">
+    </bank>
+    <bank name="Portugal" economy="Europe" location="POINT(-9.150000 38.766667)" core="False">
+    </bank>
+    <bank name="Estonia" economy="Europe" location="POINT(24.750000 59.416667)" core="False">
+    </bank>
+    <bank name="Uruguay" economy="SAmerica_Caribbean" location="POINT(-56.166667 -34.883333)" core="False">
+    </bank>
+    <bank name="Mexico" economy="SAmerica_Caribbean" location="POINT(-99.366667 19.050000)" core="False">
+    </bank>
+    <bank name="Lebanon" economy="MEast_Africa" location="POINT(35.533333 33.900000)" core="False">
+    </bank>
+    <bank name="Uzbekistan" economy="Europe" location="POINT(69.216667 41.266667)" core="False">
+    </bank>
+    <bank name="Tunisia" economy="MEast_Africa" location="POINT(10.150000 36.833333)" core="False">
+    </bank>
+    <bank name="Djibouti" economy="MEast_Africa" location="POINT(43.166667 11.600000)" core="False">
+    </bank>
+    <bank name="Dominica" economy="SAmerica_Caribbean" location="POINT(-61.383333 15.300000)" core="False">
+    </bank>
+    <bank name="Colombia" economy="SAmerica_Caribbean" location="POINT(-74.066667 4.583333)" core="False">
+    </bank>
+    <bank name="Burundi" economy="Africa" location="POINT(30.000000 -3.500000)" core="False">
+    </bank>
+    <bank name="Fiji" economy="Asia" location="POINT(178.450000 -18.166667)" core="False">
+    </bank>
+    <bank name="Barbados" economy="SAmerica_Caribbean" location="POINT(-59.616667 13.100000)" core="False">
+    </bank>
+    <bank name="Madagascar" economy="Africa" location="POINT(47.516667 -18.916667)" core="False">
+    </bank>
+    <bank name="Italy" economy="Europe" location="POINT(12.483333 41.900000)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Bhutan" economy="NW_Asia" location="POINT(89.641667 27.466667)" core="False">
+    </bank>
+    <bank name="Sudan" economy="Africa" location="POINT(32.533333 15.633333)" core="False">
+    </bank>
+    <bank name="Laos" economy="Asia" location="POINT(102.600000 17.966667)" core="False">
+    </bank>
+    <bank name="Micronesia" economy="Asia" location="POINT(158.250000 6.916667)" core="False">
+    </bank>
+    <bank name="Maldives" economy="NW_Asia" location="POINT(73.500000 4.166667)" core="False">
+    </bank>
+    <bank name="Venezuela" economy="SAmerica_Caribbean" location="POINT(-66.966667 10.500000)" core="False">
+    </bank>
+    <bank name="Netherlands Antilles" economy="SAmerica_Caribbean" location="POINT(-68.933333 12.116667)" core="False">
+    </bank>
+    <bank name="Israel" economy="MEast_Africa" location="POINT(35.216667 31.783333)" core="False">
+    </bank>
+    <bank name="Iceland" economy="Europe" location="POINT(-21.933333 64.133333)" core="False">
+    </bank>
+    <bank name="Zambia" economy="Africa" location="POINT(28.283333 -15.416667)" core="False">
+    </bank>
+    <bank name="Senegal" economy="Africa" location="POINT(-17.416667 14.666667)" core="False">
+    </bank>
+    <bank name="Papua New Guinea" economy="Asia" location="POINT(147.116667 -9.500000)" core="False">
+    </bank>
+    <bank name="Cote d'Ivoire" economy="Africa" location="POINT(-5.300000 6.850000)" core="False">
+    </bank>
+    <bank name="Trinidad and Tobago" economy="SAmerica_Caribbean" location="POINT(-61.516667 10.666667)" core="False">
+    </bank>
+    <bank name="Zimbabwe" economy="Africa" location="POINT(31.050000 -17.833333)" core="False">
+    </bank>
+    <bank name="Germany" economy="Europe" location="POINT(13.383333 52.516667)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Gambia" economy="Africa" location="POINT(-16.600000 13.466667)" core="False">
+    </bank>
+    <bank name="Kazakhstan" economy="Europe" location="POINT(71.416667 51.166667)" core="False">
+    </bank>
+    <bank name="Poland" economy="Europe" location="POINT(21.033333 52.216667)" core="False">
+    </bank>
+    <bank name="Eritrea" economy="Africa" location="POINT(38.916667 15.333333)" core="False">
+    </bank>
+    <bank name="Comoros Islands" economy="Africa" location="POINT(44.250000 -12.133333)" core="False">
+    </bank>
+    <bank name="Timor Leste" economy="Asia" location="POINT(125.566667 -8.566667)" core="False">
+    </bank>
+    <bank name="Paraguay" economy="SAmerica_Caribbean" location="POINT(-57.666667 -25.266667)" core="False">
+    </bank>
+    <bank name="Latvia" economy="Europe" location="POINT(24.100000 56.950000)" core="False">
+    </bank>
+    <bank name="Hungary" economy="Europe" location="POINT(19.250000 47.433333)" core="False">
+    </bank>
+    <bank name="Belarus" economy="Europe" location="POINT(27.550000 53.916667)" core="False">
+    </bank>
+    <bank name="Nepal" economy="NW_Asia" location="POINT(85.316667 27.700000)" core="False">
+    </bank>
+    <bank name="Honduras" economy="SAmerica_Caribbean" location="POINT(-87.216667 14.100000)" core="False">
+    </bank>
+    <bank name="Myanmar" economy="Asia" location="POINT(96.100000 19.750000)" core="False">
+    </bank>
+    <bank name="Equatorial Guinea" economy="Africa" location="POINT(8.783333 3.750000)" core="False">
+    </bank>
+    <bank name="Egypt" economy="MEast_Africa" location="POINT(31.216667 30.033333)" core="False">
+    </bank>
+    <bank name="Nicaragua" economy="SAmerica_Caribbean" location="POINT(-86.266667 12.150000)" core="False">
+    </bank>
+    <bank name="Serbia" economy="Europe" location="POINT(20.466667 44.800000)" core="False">
+    </bank>
+    <bank name="Surinam" economy="SAmerica_Caribbean" location="POINT(-55.166667 5.833333)" core="False">
+    </bank>
+    <bank name="United Kingdom" economy="Europe" location="POINT(-0.116667 51.500000)" core="True">
+        <parameter name="loanSize" value="300" />  <!-- standard size -->
+        <parameter name="homeInvestmentProp" value="0.5" /> <!-- prop of investments in home economy -->
+        <parameter name="homeInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+        <parameter name="awayInvestmentDiversity" value="0.9" /> <!-- very diversified -->
+
+    </bank>
+    <bank name="Congo" economy="Africa" location="POINT(15.283333 -4.266667)" core="False">
+    </bank>
+    <bank name="Greece" economy="Europe" location="POINT(23.716667 37.966667)" core="False">
+        <parameter name="depositShockFactor" value=".5" />
+        <parameter name="loanShockFactor" value=".25" />
+    </bank>
+    <bank name="Sri Lanka" economy="NW_Asia" location="POINT(79.900000 6.900000)" core="False">
+    </bank>
+    <bank name="Croatia" economy="Europe" location="POINT(16.000000 45.800000)" core="False">
+    </bank>
+    <bank name="Botswana" economy="Africa" location="POINT(25.916667 -25.666667)" core="False">
+    </bank>
+
+
+</parameters>

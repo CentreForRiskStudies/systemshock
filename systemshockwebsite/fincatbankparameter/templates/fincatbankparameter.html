@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load generictablerenderer %}
+
+{% block content %}
+    {% if form.errors %}
+        <div>Error in form</div>
+    {% endif %}
+
+    {%  if editmode %}
+        <form method="post" class="pageedit">{% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Save" class="gobutton"/>
+        </form>
+    {% endif %}
+
+    {% if not form.errors and not editmode%}
+        <h1>{{ page_title }}</h1>
+        <h3>{{ page_subtitle }}</h3>
+        {% formview field_structure=simpleformfields1 %}
+    {% endif %}
+
+    {% if containerclass != '' %}
+        <div class="pagelower {{ containerclass }}">
+            {% if listmodel == 'Document' %}
+                {% documentlist field_structure=pagelist %}
+            {% endif %}
+            {% if listmodel == 'Page' %}
+                {% gridlist field_structure=pagelist %}
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock content %}
+
+
+{% block comments %}
+    {% comment  %}
+        There are no comments on content pages
+    {% endcomment %}
+{% endblock comments %}
+
+
+
+{% block appcontainer %}
+    {% if righttext == '' %}
+        {{ block.super }}
+    {% else %}
+        <div class="app">
+        {{ righttext|safe }}
+        </div>
+    {%  endif %}
+{% endblock appcontainer %}
+
+

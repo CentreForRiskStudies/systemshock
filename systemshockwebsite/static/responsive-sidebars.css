@@ -1,0 +1,200 @@
+/**
+ * @file
+ * Positioning for responsive layout .
+ *
+ * Define CSS classes to create a table-free, 3-column, 2-column, or single
+ * column layout depending on whether blocks are enabled in the left or right
+ * columns.
+ *
+ * This layout uses the Zen Grids plugin for Compass: http://zengrids.com
+ */
+
+/*
+ * Center the page.
+ */
+
+#page,
+.region-bottom {
+  /* fix the screen at 960 max width */
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 960px;
+}
+
+/*
+ * Apply the shared properties of grid items in a single, efficient ruleset.
+ */
+
+#header,
+#content,
+#navigation,
+.region-sidebar-first,
+.region-sidebar-second,
+#footer {
+  padding-left: 10px;
+  padding-right: 10px;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  word-wrap: break-word;
+  _display: inline;
+  _overflow: hidden;
+  _overflow-y: visible;
+}
+
+/*
+ * Containers for grid items and flow items.
+ */
+
+#header,
+#main,
+#footer {
+  *position: relative;
+  *zoom: 1;
+}
+#header:before, #header:after,
+#main:before, #main:after,
+#footer:before, #footer:after {
+  content: "";
+  display: table;
+}
+#header:after,
+#main:after,
+#footer:after {
+  clear: both;
+}
+
+/*
+ * Navigation bar - note the logo is 53px high
+ */
+
+@media all and (min-width: 480px) {
+  #main {
+    padding-top: 115px; /* Move all the children of #main down to make room. */
+    position: relative;
+  }
+
+  #navigation {
+    position: absolute;
+    top: 0; /* Move the navbar up inside #main's padding. */
+    height: 115px;
+    width: 960px;
+    padding-top:35px;
+    padding-left:0;
+    padding-right:10px;
+    margin-left:10px;
+    margin-right:0px;
+    overflow:hidden;
+    border-bottom: solid 1px #a71930;
+  }
+
+
+}
+
+/*
+ * Use 3 grid columns for smaller screens.
+ */
+
+@media all and (min-width: 480px) and (max-width: 640px) {
+
+
+  /*
+   * The layout when there is only one sidebar, the right one.
+   */
+
+  .sidebar-second #content { /* Span 2 columns, starting in 1st column from left. */
+    float: left;
+    width: 330px;
+    margin-left: 0%;
+    margin-right: -330px;
+  }
+  .sidebar-second .region-sidebar-second { /* Span 1 column, starting in 3rd column from left. */
+    float: left;
+    width: 280px;
+    margin-left: 330px;
+    margin-right: -100%;
+    padding-left:0;
+    padding-right:0;
+  }
+
+    #navigation {
+        width: 640px;
+    }
+
+    div.threattypetableborder
+    {
+        width:300px;
+    }
+
+    div.gridlist.threatengine-threatclass li.cell div.field span.subtitle
+    {
+        width:280px;
+    }
+}
+
+/*
+ * Use 5 grid columns for larger screens.
+ */
+
+@media all and (min-width: 641px) {
+
+
+
+  /*
+   * The layout when there is only one sidebar, the right one.
+   */
+
+  .sidebar-second #content { /* Span 4 columns, starting in 1st column from left. */
+    float: left;
+    width: 680px;
+    margin-left: 0%;
+    margin-right: -680px;
+  }
+  .sidebar-second .region-sidebar-second { /* Span 1 column, starting in 5th column from left. */
+    float: left;
+    width: 280px;
+    margin-left: 680px;
+    margin-right: -100%;
+    padding-left:0;
+    padding-right:0;
+  }
+
+
+}
+
+/* older Internet Explorers */
+
+.lt-ie9 #main  {
+    padding-top: 115px; /* Move all the children of #main down to make room. */
+    position: relative;
+}
+
+.lt-ie9 #navigation  {
+    position: absolute;
+    top: 0; /* Move the navbar up inside #main's padding. */
+    height: 115px;
+    width: 960px;
+    padding-top:35px;
+    padding-left:0;
+    padding-right:10px;
+    margin-left:10px;
+    margin-right:0px;
+    overflow:hidden;
+    border-bottom: solid 1px #a71930;
+}
+
+.lt-ie9 .sidebar-second #content { /* Span 4 columns, starting in 1st column from left. */
+    float: left;
+    width: 680px;
+    margin-left: 0%;
+    margin-right: -680px;
+}
+.lt-ie9 .sidebar-second .region-sidebar-second { /* Span 1 column, starting in 5th column from left. */
+    float: left;
+    width: 280px;
+    margin-left: 680px;
+    margin-right: -100%;
+    padding-left:0;
+    padding-right:0;
+}

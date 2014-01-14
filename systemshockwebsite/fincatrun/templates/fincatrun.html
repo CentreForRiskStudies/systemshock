@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% load generictablerenderer %}
+{% load geonetworkviewer %}
+
+{% block javascript1 %}
+
+
+    <style>
+        /* override basic page layout : FinCat occupies whole width */
+        div.region-sidebar-second
+        {
+            display:none;
+        }
+
+        .sidebar-second #content
+        {
+            width:960px;
+            margin-right:-960px;
+        }
+
+    </style>
+
+
+    {{ block.super }}
+{% endblock javascript1 %}
+
+
+{% block content %}
+    {% if form.errors %}
+        <div>Error in form</div>
+    {%  endif %}
+
+    {%  if editmode %}
+        <form enctype="multipart/form-data" method="post" class="pageedit {{ pageclass }}">{% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Run model" class="gobutton"/>
+        </form>
+    {%  endif %}
+
+    {% if not form.errors and not editmode%}
+        <div class="fincatheader">
+            <h1>{{ page_title }}</h1>
+            <div class="tabbar">{{ nextbutton|safe }} {{ prevbutton|safe }}</div>
+
+            <h3>{{ page_subtitle }}</h3>
+            <div class="field">
+                <span class="fieldvalue TextField introtext">
+                    {{ starttext|safe }}
+                </span>
+            </div>
+
+        </div>
+        {% if tabmode == 'list' %}
+        <div class=fincatmodelsettings>
+            {% formviewwithlabels field_structure=tablesetup1 %}
+        </div>
+        <div class="fincatresultscontainer">
+            {% tableview field_structure=results %}
+        </div>
+        {% endif %}
+
+        {% if tabmode == 'map' %}
+            {% comment %} Insert the network viewer
+            {{ block.super }}{% endcomment %}
+
+            {% geonetworkviewer viewerstructure=geonetworkviewer1%}
+        {% endif %}
+    {%  endif %}
+
+{% endblock content %}
+
+
+{% block comments %}
+    {% comment  %}
+        There are no comments on content pages
+    {% endcomment %}
+{% endblock comments %}
+
+{% block appcontainer %}
+    {% if not form.errors and not editmode%}
+        <div class="app">
+
+
+        </div>
+    {%  endif %}
+{% endblock appcontainer %}
+

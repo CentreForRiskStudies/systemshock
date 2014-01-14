@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load generictablerenderer %}
+
+{% block javascript1 %}
+
+    {% comment  %}
+    https://developers.google.com/news-search/newsshow/
+    {% endcomment %}
+
+    {% if newssearchterms != '' %}
+    <script type="text/javascript" src="https://www.google.com/jsapi"></script>
+    <script type="text/javascript">
+
+        google.load("elements", "1", {packages : ["newsshow"]});
+
+        function onLoad() {
+
+            var options = {
+                "queryList" : [
+                    {
+                        "title" : "",
+                        "q" : '{{ newssearchterms|safe }}',
+                        "rsz" : "large"
+                    }//,
+                    //{
+                    //    "title" : "credit downgrade",
+                    //    "q" : '"credit downgrade"',
+                    //    "rsz" : "small"
+                    //}
+                ],
+                "format":"300x250",
+                "displayTime":"3000",
+                "transitionTime":"400"
+
+            }
+            var content = document.getElementById('feed');
+            var newsShow = new google.elements.NewsShow(content, options);
+        }
+
+        google.setOnLoadCallback(onLoad);
+
+    </script>
+    {% endif %}
+
+{% endblock javascript1 %}
+
+{% block content %}
+
+    {% if form.errors %}
+        <div>Error in form</div>
+    {%  endif %}
+
+    {%  if editmode %}
+        <form method="post" class="pageedit">{% csrf_token %}
+            <table>
+                {{ form.as_table }}
+            </table>
+            <input type="submit" value="Save" class="gobutton"/>
+        </form>
+    {%  endif %}
+
+    {% if not form.errors and not editmode%}
+    {% formview field_structure=tablesetup1 %}
+    {%  endif %}
+
+    <div class="threattypetableborder">
+        <div class="tableheading">
+            <div class="classheader">Threat Class</div><div class="descriptionheader">Description</div>
+        </div>
+        {% gridlist field_structure=typeslist %}
+    </div>
+
+{% endblock content %}
+
+{% block appcontainer %}
+
+    <div class="app">
+        <h5>{{ shortname }} news watch</h5>
+        <div id="feed"></div>
+    </div>
+
+    {% if linkscount > 0 or bookscount > 0 %}
+    <div class="app">
+        <h5>Resources</h5>
+        <div class="resourceslist">
+            {% if linkscount > 0 %}
+                <div class="resourcesheader">Links</div>
+                <div class="linkslist">
+                {% weblinklist field_structure=linkslist %}
+                </div>
+            {% endif%}
+            {% if bookscount > 0 %}
+                <div class="resourcesheader">Books</div>
+                <div class="linkslist">
+                    {% weblinklist field_structure=bookslist %}
+                </div>
+            {% endif%}
+        </div>
+
+    </div>
+    {% endif %}
+
+{% endblock appcontainer %}
+
+{% block comments %}
+    {% comment %} include the commenting system on this page {% endcomment %}
+    {% include "comments.html" %}
+{% endblock comments %}
