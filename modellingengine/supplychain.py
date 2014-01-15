@@ -38,7 +38,7 @@ class SupplyChain(ModellingBase):
             attributes = node[1]
             #try:
             attributes['nodestyle'] = attributes['tier']
-            attributes['popup'] = '<div class="n">Node ' + attributes['guid'] + '</div><div class="t">Tier ' + str(attributes['tier']) + '</div><div class="a">' + attributes['activity'] + '</div><div class="p">' + attributes['name'] + '</div><div class="c">' + attributes['countrycode'] + '</div><div class="h">Health:' + str(attributes['health']) + '</div>'
+            attributes['popup'] = '<div class="n">Node ' + attributes['guid'] + '</div><div class="t">Tier ' + str(attributes['tier']) + '</div><div class="a">' + attributes['activity'] + '</div><div class="p">' + attributes['name'] + '</div><div class="c">' + unicode(attributes['countrycode']) + '</div><div class="h">Health:' + str(attributes['health']) + '</div>'
 
             # append the in/out edge count
             attributes['popup'] += '<div class="e">Edges in: ' + unicode(self.n.layergraphs[activelayerid].in_degree(guid)) + ' out: ' + unicode(self.n.layergraphs[activelayerid].out_degree(guid)) + '</div>'

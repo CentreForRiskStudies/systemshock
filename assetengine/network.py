@@ -185,6 +185,8 @@ class Network(object):
                     if node_filter is not None:
                         nodes = nodes.filter(**ast.literal_eval(node_filter))
 
+                    numnodes = 0
+
                     try:
                         # check we can load the graph from the database
                         if nodes is not None:
@@ -205,7 +207,9 @@ class Network(object):
                                 if field.name not in ['id', 'the_geom', 'ownerid', 'lastupdatebyid', 'lastupdate', 'locationwkt', ]:
                                     fieldvalue = getattr(node, field.name)
                                     if field.get_internal_type() == 'ForeignKey':
-                                        G.node[node.guid][field.name] = unicode(fieldvalue)  # by passing through unicode we flatten out any objects so we are sure they will serialise OK
+                                        G.node[node.guid][field.name] = unicode(fieldvalue)     # by passing through unicode we flatten out any objects
+                                                                                                # so we are sure they will serialise OK
+                                                                                                # do we really need to do this?
                                     else:
                                         if fieldvalue is not None:
                                             G.node[node.guid][field.name] = fieldvalue
