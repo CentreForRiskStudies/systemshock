@@ -901,7 +901,7 @@ div#previewform tr.error
 
 /* end of menu */
 
-div.d3message
+div.d3message,div.iemessage
 {
     display:none;
 }
@@ -929,10 +929,33 @@ form textarea
     width:500px;
 }
 
+/* geonetworkviewer */
 
+#container1,#container2
+{
+    width:940px;
+    height:600px;
+    border:solid 1px #aaa;
+    position:relative
+}
 
+#map1,#map2
+{
+    width:940px;
+    height:600px;
+    position:absolute;
+    top:0px;
+    z-index:1;
+}
 
-/* map */
+#graph1
+{
+    width:0px;
+    height:0px;
+    position:absolute;
+    top:0px;
+    z-index:2;
+}
 
 /* basic settings for all nodes */
 .node {
@@ -942,7 +965,7 @@ form textarea
 
 /* node colours */
 .node.style-1 { fill :rgb(255,255,0); }
-.node.style0 { fill :rgb(255,0,0); }
+.node.style0 { fill :rgb(255,0,0);}
 .node.style1 { fill :rgb(255,127,7); }
 .node.style2 { fill :rgb(185,197,35); }
 .node.style3 { fill :rgb(0,168,43); }
@@ -965,9 +988,18 @@ form textarea
     fill: #08E9EB;
 }
 
+.infootprint
+{
+    stroke-width: 3px;
+    fill: #08E9EB!important;
+    stroke: #08E9EB!important;
+}
+
+/* Links */
 .link {
     stroke: rgb(168,168,168);
     stroke-opacity: .6;
+
 }
 
 
@@ -993,12 +1025,36 @@ div.mapbuttons div.metrics
     float:right;
 }
 
-/* popup */
-div#popup,div#popup1
+/* Leaflet popup*/
+div.leaflet-popup-content-wrapper
+{
+    background-color:#000;
+    opacity:0.7;
+    color:#fff;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius :5px;
+    border-bottom-left-radius: 5px;
+}
+
+div.leaflet-popup-tip
+{
+    background-color:#000;
+    opacity:0.7;
+}
+
+.leaflet-container a.leaflet-popup-close-button
+{
+    color:#fff;
+    z-index:10000;
+}
+
+/* D3 popup */
+div.graphpopupcontainer
 {
     position:absolute;
-    width:130px;
-    height:150px;
+    width:200px;
+    height:130px;
     top:0px;
     left:0px;
     display:none;
@@ -1006,24 +1062,47 @@ div#popup,div#popup1
     background-color:#000;
     opacity:0.7;
     color:#fff;
-    padding:10px;
+    padding:15px;
     font-size:12px;
     border-radius: 5px;
+    line-height:1.4em;
 }
 
-div#popup div.n, div#popup1 div.n /* node name */
+div.graphpopupcontainer a#closebutton
+{
+    position: absolute;
+	top: 0;
+	right: 0;
+	padding: 4px 4px 0 0;
+	text-align: center;
+	width: 18px;
+	height: 14px;
+	font: 16px/14px Tahoma, Verdana, sans-serif;
+	color: #c3c3c3;
+	text-decoration: none;
+	font-weight: bold;
+	background: transparent;
+}
+
+div.graphpopupcontainer a#closebutton:hover
+{
+    color:#999;
+}
+
+
+div#popup div.n, div#popup1 div.n, div.leaflet-popup-content-wrapper div.n /* node name */
 {
     font-style:italic;
 }
 
-div#popup div.t, div#popup1 div.t /* tier */
+div#popup div.t, div#popup1 div.t, div.leaflet-popup-content-wrapper div.t /* tier */
 {
     color:rgb(70,149,162);
     font-weight:bold;
     font-size:14px;
 }
 
-div#popup div.a, div#popup1 div.a /* activity */
+div#popup div.a, div#popup1 div.a, div.leaflet-popup-content-wrapper div.a /* activity */
 {
     text-transform:uppercase;
     font-size:16px;
@@ -1213,4 +1292,37 @@ table.tweettable td
     border:solid 1px #ccc;
 }
 
+
+/* Test grid of images for ganged grid*/
+
+div.gangedgridlist1.networkmanager div.container
+{
+    width:960px;
+    clear:both;
+    border:solid 1px #ccc;
+    float:left;
+    margin-bottom:18px;
+}
+
+div.gangedgridlist1.networkmanager div.container ul
+{
+    list-style-type:none;
+    list-style-position:outside;
+    list-style-image:none;
+    margin:0;
+    padding:0;
+    font-size:8px;
+
+}
+
+div.gangedgridlist1.networkmanager li.cell
+{
+    width:100px;
+    margin-top:0px;
+    margin-right:20px;
+    margin-bottom:30px;
+    float:left;
+    overflow:hidden;
+    height:120px;
+}
 

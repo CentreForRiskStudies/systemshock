@@ -52,5 +52,8 @@ class ModellingBase:
                 additional_attributes = self.s.additional_attributes
             self.n.minimise(additional_attributes)
 
+        self.geojson = self.n.get_geojson()
+
+        # must call json after geojson because json deletes the geometry atrtibute
         self.json = self.n.get_json()
         return True

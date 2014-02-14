@@ -25,7 +25,7 @@ def iteratetable(queryset,columnnameslist):
         if hasattr(record, 'id'):
             indent = record.id
 
-        tuple[str(ident)] = column_list;
+        tuple[str(ident)] = column_list
         record_list.append(tuple)
 
         ident = ident + 1
@@ -66,7 +66,7 @@ def simpleview(context,setup):
             token = token.get_url(getattr(record,'image1size').get_name())
         column_list.append(token)
     tuple = dict()
-    tuple[str(record.id)] = column_list;
+    tuple[str(record.id)] = column_list
     record_list.append(tuple)
 
     return {'output': record_list, 'columnnameslist': columnnameslist}
@@ -87,6 +87,10 @@ def iteratefieldstructure(field_structure, context):
     linkprefix = ''  # used to prefix links derived from foreign keys, so you can look up in the related table
     linksuffix = ''
     tagclass = 'tag'
+    linkforeignkeys = True
+    ganglist = []
+    viewerid = ""
+
     if 'params' in field_structure:
 
         if 'foreignkeylinkprefix' in field_structure['params']:
@@ -97,6 +101,15 @@ def iteratefieldstructure(field_structure, context):
 
         if 'tagclass' in field_structure['params']:
             tagclass = field_structure['params']['tagclass']
+
+        if 'linkforeignkeys' in field_structure['params']:
+            linkforeignkeys = field_structure['params']['linkforeignkeys']
+
+        if 'ganglist' in field_structure['params']:
+            ganglist = field_structure['params']['ganglist']
+
+        if 'viewerid' in field_structure['params']:
+            viewerid = field_structure['params']['viewerid']
 
     for field in field_structure['fields']:
         columnname = str(field[0].keys()[0])
@@ -119,7 +132,11 @@ def iteratefieldstructure(field_structure, context):
             tag_attributes['class'] = 'fieldvalue'
 
             columnname = str(field[0].keys()[0])
-            columnvalue = getattr(record,columnname)
+            columnvalue = None
+            try:
+                columnvalue = getattr(record, columnname)
+            except:
+                pass
 
             fieldtype = str(field[0][columnname]['type'])
             tag_attributes['class'] = 'fieldvalue ' + fieldtype + ' ' + columnname
@@ -137,7 +154,7 @@ def iteratefieldstructure(field_structure, context):
 
             # link to track back through foreign key - try clause is there in case no _meta record
             try:
-                if fieldtype != 'WebLibPhoto' and columnvalue is not None and record._meta.get_field(columnname).get_internal_type() == 'ForeignKey':
+                if linkforeignkeys and fieldtype != 'WebLibPhoto' and columnvalue is not None and record._meta.get_field(columnname).get_internal_type() == 'ForeignKey':
                     columnvalue = '<a href=' + linkprefix + '/' + str(columnvalue._meta.module_name) + '/' + str(columnvalue.id) + '>' + str(columnvalue) + '</a>'
             except:
                 pass
@@ -180,7 +197,7 @@ def iteratefieldstructure(field_structure, context):
 
         if hasattr(record,'id'):
             ident = record.id
-        tuple[str(ident)] = render_record;
+        tuple[str(ident)] = render_record
         render_structure.append(tuple)
 
         ident = ident + 1
@@ -204,7 +221,9 @@ def iteratefieldstructure(field_structure, context):
 #        tuple[str(record.id)] = column_list;
 #        record_list.append(tuple)
 
-    return {'render_structure': render_structure, 'columnheadings_list': columnheadingslist, 'target_url': target_url, 'pageclass': pageclass, 'media_url': context['MEDIA_URL'], 'linksuffix': linksuffix, 'tagclass': tagclass}
+    return {'render_structure': render_structure, 'columnheadings_list': columnheadingslist, 'target_url': target_url,
+            'pageclass': pageclass, 'media_url': context['MEDIA_URL'], 'linksuffix': linksuffix, 'tagclass': tagclass,
+            'ganglist': ganglist, 'viewerid': viewerid}
 
 
 @register.inclusion_tag ('tableview.html', takes_context=True)
@@ -249,5 +268,10 @@ def documentlist( context, field_structure ):
 
 @register.inclusion_tag ('spanlist.html', takes_context=True)
 def spanlist( context, field_structure ):
+
+    return iteratefieldstructure( field_structure, context)
+
+@register.inclusion_tag ('gangedgridlist.html', takes_context=True)
+def gangedgridlist( context, field_structure ):
 
     return iteratefieldstructure( field_structure, context)

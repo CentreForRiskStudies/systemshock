@@ -38,8 +38,10 @@ class Freeze(ScenarioBase):
         self.additional_attributes = ['intensity']
         self.footprint = Footprint('freeze100', self.additional_attributes)
 
-    def pre_model(self, n, layerid=0, iteration=0):
+    def pre_model(self, n, layerid=0, iteration=0, delete_nodes=False):
         ScenarioBase.pre_model(self, n, layerid, iteration)
+
+        timestep = None
 
         # apply footprint
         schema = n.layers[layerid].layerid.schema
@@ -48,7 +50,7 @@ class Freeze(ScenarioBase):
         nodetablename = n.layers[layerid].layerid.nodetablename
         if nodetablename is not None:
             nodetablename = schema + '.' + nodetablename
-            self.footprint.apply(nodetablename, n.layergraphs[layerid])
+            self.footprint.apply(nodetablename, n.layergraphs[layerid], timestep, delete_nodes)
         return 0
 
 

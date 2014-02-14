@@ -50,6 +50,9 @@ class Pagebase(FormView):
         user_agent = request.META['HTTP_USER_AGENT']
         if "MSIE" in user_agent:
             self.page_context['browser'] = 'MSIE'
+        else:
+            if "Trident" in user_agent:
+                self.page_context['browser'] = 'MSIE'
 
         return True # always returns true, and return result can be ignored. This is only here for legacy code that still expects a boolean.
 

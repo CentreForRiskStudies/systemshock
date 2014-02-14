@@ -13,6 +13,7 @@ import networkx as nx
 from modellingengine.supplychain import SupplyChain
 from modellingengine.modellingbase import ModellingBase
 from threatengine.scenariobase import Freeze, Viewer
+import ast
 
 template_dir = 'networkmanager/templates/'
 
@@ -34,9 +35,13 @@ class NetworkManagerPage (Pagebase):
 
         if self.preProcessPage(request, **kwargs):
 
-            # create a structure that will be sent to the web page graph/map viewer
+            # create a structure that will be sent to the web page graph viewer
             geonetworkviewerstructure = {}
             geonetworkviewerstructure['startup'] = {}
+
+            # create a structure that will be sent to the web page map viewer
+            mapviewerstructure = {}
+            mapviewerstructure['startup'] = {}
 
             tabmode = 'map'
             try:
@@ -53,6 +58,7 @@ class NetworkManagerPage (Pagebase):
             except:
                 pass
             geonetworkviewerstructure['startup']['footprint'] = footprint
+            mapviewerstructure['startup']['footprint'] = footprint
 
             markers = False
             try:
@@ -61,6 +67,7 @@ class NetworkManagerPage (Pagebase):
             except:
                 pass
             geonetworkviewerstructure['startup']['markers'] = markers
+            mapviewerstructure['startup']['markers'] = markers
 
             shock = False
             try:
@@ -69,6 +76,7 @@ class NetworkManagerPage (Pagebase):
             except:
                 pass
             geonetworkviewerstructure['startup']['shock'] = shock
+            mapviewerstructure['startup']['shock'] = shock
 
             n = Network()
             try:
@@ -84,25 +92,48 @@ class NetworkManagerPage (Pagebase):
             # make default popup
             n.makePopup()
 
-            # get network metrics - by default for the first layer in the network if multiple layers
-            geonetworkviewerstructure['metrics'] = n.getMetrics()
+            # create the list of nodes - may be more than one list depending on how many networks
+            self.page_context['nodelistlist'] = []
+            listganglist = ['graph1', 'map2']
+            listviewerid = 1
 
+            for index, graphmodels in enumerate(n.graphmodelslist):
+                node_filter = n.layers[index].layerid.nodefilter
+                nodequeryset = graphmodels.Nodes.objects.only('id','guid', 'image1','name', 'countrycode').all().order_by('name')
+                if node_filter is not None:
+                        nodequeryset = nodequeryset.filter(**ast.literal_eval(node_filter))
+                fieldlist=\
+                        [
+                            [{'guid' :  { 'title' : 'GUID', 'type' : 'text', }}], # NB guid must be first for the ganged grid list templatetag to find it
+                            [{'image1': {'title': 'Image', 'type' : 'WebLibPhoto', 'photosize' : 'admin_thumbnail'}}],
+                            [{'name' :  { 'title' : 'Node name', 'type' : 'text', }}],
+                            [{'countrycode' :  { 'title' : 'Country', 'type' : 'text', }}]
+                       ]
+                fieldstructure = {'entity': nodequeryset, 'targeturl': '/node/' + unicode(n.layeridlist[index]) +  '/',
+                                  'fields': fieldlist, 'params': {'linkforeignkeys': False, 'ganglist': listganglist, 'viewerid': listviewerid} }
+                self.page_context['nodelistlist'].append(fieldstructure)
+
+
+            # set up the scenario
             freezescenario = Freeze()
             viewer = Viewer()
 
             if self.page_context['ix'] == '6':
                 # run Ben's supply chain model
-                supplychainmodel = SupplyChain(None)
-                supplychainmodel.run_model(n)
+                supplychainmodel = SupplyChain(freezescenario)
+                supplychainmodel.run_model(n, 0, 0, shock)
                 #n.exportGexf('c:\\inetpub\\wwwroot\\networksessions\\pomegranite2.gexf')
                 supplychainmodel.get_results()
                 geonetworkviewerstructure['jsonGraph'] = supplychainmodel.json
+                mapviewerstructure['geojson'] = supplychainmodel.geojson
+
             else:
                 # simple viewer only
                 viewermodel = ModellingBase(viewer)
                 viewermodel.run_model(n)
                 viewermodel.get_results()
                 geonetworkviewerstructure['jsonGraph'] = viewermodel.json
+                mapviewerstructure['geojson'] = viewermodel.geojson
 
             # run freeze model over supply chain - applies footprint and passes output in the JSON
             #supplychainmodel = SupplyChain(freezescenario)
@@ -111,7 +142,8 @@ class NetworkManagerPage (Pagebase):
             #supplychainmodel.get_results()
             #geonetworkviewerstructure['jsonGraph'] = supplychainmodel.json
 
-
+            # get network metrics - by default for the first layer in the network if multiple layers
+            geonetworkviewerstructure['metrics'] = n.getMetrics()
 
             current_object = n.networkobject
             page_title = current_object.name
@@ -130,10 +162,15 @@ class NetworkManagerPage (Pagebase):
             self.page_context['current_object'] = current_object
             self.page_context['this_page'] = request.path
 
-            # pass the data to the geonetwork viewer template tag
+            # pass the data to the network viewer template tag
+            geonetworkviewerstructure['ganglist'] = ['map2'] # connects graph viewer to map viewer
             geonetworkviewerstructure['uniqueid'] = 1  # allows multiple viewers on same page
-            self.page_context['geonetworkviewer1'] = geonetworkviewerstructure
+            self.page_context['graphviewer1'] = geonetworkviewerstructure
 
+            # pass the data to the map viewer template tag
+            mapviewerstructure['ganglist'] = ['graph1'] # connects map viewer to graph viewer
+            mapviewerstructure['uniqueid'] = 2  # allows multiple viewers on same page
+            self.page_context['mapviewer2'] = mapviewerstructure
 
             ###############
             # POST

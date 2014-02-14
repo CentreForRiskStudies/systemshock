@@ -4,8 +4,8 @@ from django.template import Library
 
 register = Library()
 
-@register.inclusion_tag ('geonetworkviewer.html', takes_context=True)
-def geonetworkviewer(context, viewerstructure):
+@register.inclusion_tag ('graphviewer.html', takes_context=True)
+def graphviewer(context, viewerstructure):
 
     # some keys may be absent - set the defaults values here
     if 'metrics' not in viewerstructure:

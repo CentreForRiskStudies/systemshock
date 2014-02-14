@@ -1,0 +1,38 @@
+<!-- gangedgridlist tag start -->
+<script type="text/javascript">
+   function list{{ viewerid }}_click(id)
+   {
+       {% for ganged_viewer in ganglist %}
+            {{ ganged_viewer }}.remoteClickOn(id);
+       {% endfor %}
+       jQuery(".gangedgridlist{{ viewerid }} li.cell").css("border","none");
+       jQuery(".gangedgridlist{{ viewerid }} li.cell#" + id).css("border","solid 1px red");
+
+   }
+
+</script>
+
+{% comment %} Note the guid must be the first html_definition (make first in the field list). This will then be returned as value.0.value {% endcomment %}
+
+
+
+<div class="gangedgridlist{{ viewerid }} {{ pageclass }} {{ tagclass }}" >
+    <div class="container"><ul>
+    {% for record in render_structure %}
+    {% for key,value in record.items  %}
+    {% with guid=value.0.value %}
+    <li class="cell" id="{{ guid }}"><span class="hotspot" onclick="list{{ viewerid }}_click('{{ guid }}');">
+    {% endwith %}
+    {% for html_definition in value %}
+        <div class="field">
+            <{{ html_definition.tag }}{% for key,value in html_definition.attributes.items %} {{ key }}="{{ value }}"{% endfor %}>{{ html_definition.value }}</{{ html_definition.tag }}>
+        </div>
+    {% endfor %}</span>
+    <a href="{{ target_url }}{{ key }}{{ linksuffix }}">More info &raquo;</a></li>
+    {% endfor %}
+    {% endfor %}
+    </ul></div>
+</div>
+
+
+<!-- gangedgridlist tag end -->

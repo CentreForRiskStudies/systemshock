@@ -13,13 +13,14 @@ class SupplyChain(ModellingBase):
 
         return True
 
-    def run_model(self, network, activelayerid=0, iteration=0):
+    def run_model(self, network, activelayerid=0, iteration=0, delete_nodes=False):
 
         self.n = network
 
         # set up scenario, applying to active layer in network
+        # if the scenario is freeze this will apply the freeze footprint
         if self.s is not None:
-            self.s.pre_model(self.n, activelayerid, iteration)
+            self.s.pre_model(self.n, activelayerid, iteration, delete_nodes)
 
         # modelling code here
         self.n.layergraphs[activelayerid], health = scm.runSimulation(self.n.layergraphs[activelayerid], 10, 999)
@@ -38,14 +39,18 @@ class SupplyChain(ModellingBase):
             attributes = node[1]
             #try:
             attributes['nodestyle'] = attributes['tier']
-            attributes['popup'] = '<div class="n">Node ' + attributes['guid'] + '</div><div class="t">Tier ' + str(attributes['tier']) + '</div><div class="a">' + attributes['activity'] + '</div><div class="p">' + attributes['name'] + '</div><div class="c">' + unicode(attributes['countrycode']) + '</div><div class="h">Health:' + str(attributes['health']) + '</div>'
+            attributes['popup'] = '<div class="n">Node ' + attributes['guid'] + '</div><div class="t">Tier ' + str(attributes['tier']) + '</div><div class="a">' + attributes['activity'] + '</div><div class="p">' + attributes['name'] + '</div><div class="c">' + unicode(attributes['countrycode']) + '</div><div class="h">Health:' + str(round(attributes['health'],3)) + '</div>'
 
             # append the in/out edge count
             attributes['popup'] += '<div class="e">Edges in: ' + unicode(self.n.layergraphs[activelayerid].in_degree(guid)) + ' out: ' + unicode(self.n.layergraphs[activelayerid].out_degree(guid)) + '</div>'
+
+            # if intensity is missing, set it to zero, also append the intensity to the popup
+            if 'intensity' not in attributes:
+                attributes['intensity'] = 0
+            attributes['popup'] += '<div class="e">Footprint intensity: ' + unicode(attributes['intensity']) + '</div>'
+
             #except:
             #    pass
-
-
 
         # clear out the attributes we dont need in the JSON string
         if cleanjson:
@@ -54,6 +59,7 @@ class SupplyChain(ModellingBase):
                 additional_attributes = self.s.additional_attributes
             self.n.minimise(additional_attributes)
 
+        self.geojson = self.n.get_geojson()
         self.json = self.n.get_json()
         return True
 

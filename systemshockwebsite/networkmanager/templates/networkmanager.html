@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% load generictablerenderer %}
-{% load geonetworkviewer %}
+{% load graphviewer %}
+{% load mapviewer %}
 
 {% block javascript1 %}
 
@@ -54,7 +55,15 @@
      {% comment %} Insert the old style network viewer
     {{ block.super }}{% endcomment %}
 
-    {% comment %}{% endcomment %}{% geonetworkviewer viewerstructure=geonetworkviewer1%}
+    {% comment %}{% endcomment %}{% graphviewer viewerstructure=graphviewer1%}
+
+        {% mapviewer viewerstructure=mapviewer2%}
+
+        {% for nodelist in nodelistlist %}
+
+        {% comment %}{% endcomment %}{% gangedgridlist field_structure=nodelist %}
+
+        {% endfor %}
 
     {% endif %}
 

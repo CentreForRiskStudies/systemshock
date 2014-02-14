@@ -15,6 +15,7 @@ from assetengine.models import City, Country
 from datetime import datetime
 import ast
 from django.db.models.loading import cache
+from weblib.models import WebLibPhoto
 
 class NetworkModel(models.Model):
     id = models.AutoField(primary_key=True)
@@ -83,7 +84,7 @@ class Network(object):
         self.layeridlist = []
         self.statusMessage = ''
         self.aborted = False
-        self.graphmodels = None  # underlying model-set to allow access to the underlying database tables
+        self.graphmodelslist = []  # list of underlying modelsets to allow access to the underlying database tables
         self.networkobject = None # underlying record in the network table
 
     def abort(self, message):
@@ -96,6 +97,7 @@ class Network(object):
             geomtype = re.findall(r"[A-Za-z]+", wkt)[0]
             coordlist = [float(x) for x in re.findall(r"[\d+-.]+", wkt)]
             # TODO note this cannot yet deal with comma separated coordinate lists as found in LINESTRING etc
+            geomtype = geomtype.title() # Leaflets wants the first char caps, rest lowercase
             geoJSON = {"type": geomtype, "coordinates": coordlist}    # this is GeoJSON format
         except:
             geoJSON = None
@@ -121,8 +123,14 @@ class Network(object):
         for node in G.nodes(data=True):
             nodeid = node[0] #node array index 0 is the node id, index 1 is the attribute list
             attributes = node[1]
+            attributes['guid'] = nodeid
             if 'wkt' in attributes:
                 attributes['geometry'] = self.WKTtoGeoJSON(attributes['wkt'])
+
+        for edge in G.edges(data=True):
+            edgeid = unicode(edge[0]) + '-' + unicode(edge[1])
+            attributes = edge[2]
+            attributes['guid'] = edgeid
 
         self.layergraphs.append(G)  # add the new layer graph to the overall network
         return True
@@ -148,6 +156,7 @@ class Network(object):
         self.layers = NetworkLayerModel.objects.filter(networkid=id)
         if len(self.layers) > 0:
             for layer in self.layers:  # get each layer in the network
+                self.layeridlist.append(layer.layerid_id)
                 nodetablename = layer.layerid.nodetablename
                 edgetablename = layer.layerid.edgetablename
                 schema = layer.layerid.schema
@@ -163,24 +172,27 @@ class Network(object):
                     # graph is to be read from database. Decide which database model-set to use
                     # based on the typecode column value in the layers table
                     specialtype = False
+                    graphmodels = None
                     if typecode == 'supplychain':
-                        self.graphmodels = SupplyChain(schema, nodetablename, schema, edgetablename, params)
+                        graphmodels = SupplyChain(schema, nodetablename, schema, edgetablename, params)
                         G = nx.DiGraph()
                         specialtype = True
                     if typecode == 'citybase':
-                        self.graphmodels = CityBase(schema, nodetablename, schema, edgetablename, params)
+                        graphmodels = CityBase(schema, nodetablename, schema, edgetablename, params)
                         G = nx.DiGraph()
                         specialtype = True
                     if not specialtype:
-                        self.graphmodels = GraphBase(schema, nodetablename, schema, edgetablename, params)
+                        graphmodels = GraphBase(schema, nodetablename, schema, edgetablename, params)
                         G = nx.DiGraph()
 
                     nodes = None
                     edges = None
-                    if self.graphmodels.Nodes is not None:
-                        nodes = self.graphmodels.Nodes.objects.all()
-                    if self.graphmodels.Edges is not None:
-                        edges = self.graphmodels.Edges.objects.all()
+                    if graphmodels.Nodes is not None:
+                        nodes = graphmodels.Nodes.objects.all()
+                    if graphmodels.Edges is not None:
+                        edges = graphmodels.Edges.objects.all()
+
+                    self.graphmodelslist.append(graphmodels)
 
                     if node_filter is not None:
                         nodes = nodes.filter(**ast.literal_eval(node_filter))
@@ -208,7 +220,7 @@ class Network(object):
                                     fieldvalue = getattr(node, field.name)
                                     if field.get_internal_type() == 'ForeignKey':
                                         G.node[node.guid][field.name] = unicode(fieldvalue)     # by passing through unicode we flatten out any objects
-                                                                                                # so we are sure they will serialise OK
+                                                                                                # so we are sure they will serialise/pickle OK
                                                                                                 # do we really need to do this?
                                     else:
                                         if fieldvalue is not None:
@@ -268,8 +280,8 @@ class Network(object):
                 guid = node[0]
                 attributes = node[1]
                 attributes['popup'] = '<div class="n">Node ' + str(guid) + '</div>'
-                #if 'label' in attributes:
-                #    attributes['popup'] += '<div class="p">' + unicode(attributes['label']) + '</div>'
+                if 'label' in attributes:
+                    attributes['popup'] += '<div class="a">' + unicode(attributes['label']) + '</div>'
                 if 'name' in attributes:
                     attributes['popup'] += '<div class="a">' + unicode(attributes['name']) + '</div>'
                 if 'countrycode' in attributes:
@@ -285,9 +297,7 @@ class Network(object):
         undirectedG = self.layergraphs[layerid].to_undirected()
         metrics = {}
 
-        try:  # must be connected
-            metrics['diameter'] = nx.diameter(undirectedG)
-            metrics['radius'] = nx.radius(undirectedG)
+        try:
             metrics['average_clustering'] = round(nx.average_clustering(undirectedG),3)
             metrics['transitivity'] = round(nx.transitivity(undirectedG),3)
             metrics['number_connected_components'] = nx.number_connected_components(undirectedG)
@@ -298,6 +308,10 @@ class Network(object):
 
             H = nx.connected_component_subgraphs(undirectedG)[0] # largest connected component
             metrics['number_of_nodes'] = len(H.nodes())
+
+            # must be connected for these - the try will catch this
+            metrics['diameter'] = nx.diameter(undirectedG)
+            metrics['radius'] = nx.radius(undirectedG)
         except:
             pass
 
@@ -330,10 +344,17 @@ class Network(object):
             for node in G.nodes(data=True):
                 attributes = node[1]
                 for deleteme, value in attributes.items():
-                    if deleteme not in ['geometry', 'popup', 'nodestyle', 'layer', ] + allowed_attributes:
+                    if deleteme not in ['guid', 'geometry', 'popup', 'nodestyle', 'layer', ] + allowed_attributes:
                         del(attributes[deleteme])
 
     def get_json(self):
+
+        # if geometry attribute is still in the node data, delete it
+        for G in self.layergraphs:
+            for node in G.nodes(data=True):
+                attributes = node[1]
+                if 'geometry' in attributes:
+                    del(attributes['geometry'])
 
         # join together all layers in the network
         H = nx.DiGraph()
@@ -342,6 +363,47 @@ class Network(object):
 
         data = json_graph.node_link_data(H)
         return json.dumps(data)
+
+    def get_geojson(self):
+        geojsonstr = '{"type":"FeatureCollection","features":['
+        for G in self.layergraphs:
+            for node in G.nodes(data=True):
+                attributes = node[1]
+                geojsonstr += '{"type":"Feature","id":"' + unicode(attributes['guid']) + '","geometry":' + json.dumps(attributes['geometry']) + ','
+
+                geojsonstr += '"properties":{'
+
+                for attributename, value in attributes.items():
+                    if attributename not in ['guid', 'geometry']:
+                        geojsonstr += '"' + unicode(attributename) + '":' + json.dumps(value) + ','
+
+                #geojsonstr += '{"n":"' + unicode(attributes['layer']) + '","i":"' + unicode(attributes['guid']) + '","c":"Greece","y":1995,"p":10,"popup":' + json.dumps(attributes['popup']) + '}'
+                geojsonstr = geojsonstr[:-1] # strip last comma
+                geojsonstr += '}},'
+
+
+        for G in self.layergraphs:
+            for edge in G.edges(data=True):
+                attributes = edge[2]
+                start_coords = G.node[edge[0]]['geometry']['coordinates']
+                end_coords = G.node[edge[1]]['geometry']['coordinates']
+                #if 'guid' not in attributes:
+                #    pass
+                geojsonstr += '{"type":"Feature","id":"' + unicode(attributes['guid']) + '","geometry":' + '{"type":"LineString","coordinates":[' + json.dumps(start_coords) + ',' + json.dumps(end_coords) +  ']}' + ','
+
+                geojsonstr += '"properties":{'
+
+                for attributename, value in attributes.items():
+                    if attributename not in ['guid', 'geometry']:
+                        geojsonstr += '"' + unicode(attributename) + '":' + json.dumps(value) + ','
+
+                geojsonstr = geojsonstr[:-1] # strip last comma
+                geojsonstr += '}},'
+
+        geojsonstr = geojsonstr[:-1] # strip last comma
+        geojsonstr += '],"crs":{"type":"EPSG","properties":{"code":"4326"}}}'
+        return geojsonstr
+
 
     def save(self, name, userid):
 
@@ -452,7 +514,7 @@ class GraphBaseAbstract(object):
             countrycode = models.ForeignKey(Country, verbose_name='Country', to_field='iso3', db_column='countrycode')
             place = models.CharField(max_length=255, blank=True)
             url = models.CharField(max_length=255, blank=True)
-            image1id = models.IntegerField(null=True, blank=True)
+            image1 = models.ForeignKey(WebLibPhoto, db_column='image1id',null=True, blank=True)
             lastupdate = models.DateTimeField(null=True, blank=True)
             lastupdatebyid = models.IntegerField(null=True, blank=True)
             ownerid = models.IntegerField(null=True, blank=True)
